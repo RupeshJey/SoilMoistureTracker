@@ -7,3 +7,27 @@
 //
 
 import Foundation
+
+class UserMetadata: NSObject {
+    
+    // UserMetadata Class Variables
+    
+    var userID = ""
+    var OS = ""
+    
+    // Storyboard Objects
+    
+    
+    
+    override init() {
+        // perform some default initialization here
+        
+    }
+    
+    init(UID: String, deviceOS: String) {
+        // initialize with given parameters
+        userID = UID
+        OS = deviceOS
+    }
+    
+}

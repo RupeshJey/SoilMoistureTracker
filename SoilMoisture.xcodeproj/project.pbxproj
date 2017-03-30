@@ -14,6 +14,16 @@
 		F836C0C71E7721E700647893 /* SoilMoistureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F836C0C61E7721E700647893 /* SoilMoistureTests.swift */; };
 		F836C0D21E7721E700647893 /* SoilMoistureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F836C0D11E7721E700647893 /* SoilMoistureUITests.swift */; };
 		F836C0E01E77232800647893 /* logo_nasa_trio_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */; };
+		F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD0491E774A11003C03E7 /* TextInputTableViewCell.swift */; };
+		F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD04C1E7768A3003C03E7 /* SoilRecordTableViewCell.swift */; };
+		F83DD04F1E776DCC003C03E7 /* AddSoilRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */; };
+		F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0501E7776EF003C03E7 /* Add Column-50.png */; };
+		F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */; };
+		F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */; };
+		F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */; };
+		F83DD0981E855FAB003C03E7 /* SoilRecords.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */; };
+		F898EEBD1E8D7B9100A0E66E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */; };
+		F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEBE1E8D7BE900A0E66E /* DBManager.swift */; };
 		F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */; };
 		F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */; };
 		F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */; };
@@ -23,6 +33,7 @@
 		F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */; };
 		F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */; };
 		F8FB4EA21E773A6500F13DD7 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */; };
+		F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +67,17 @@
 		F836C0D11E7721E700647893 /* SoilMoistureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoilMoistureUITests.swift; sourceTree = "<group>"; };
 		F836C0D31E7721E700647893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_nasa_trio_black@2x.png"; sourceTree = "<group>"; };
+		F83DD0491E774A11003C03E7 /* TextInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputTableViewCell.swift; sourceTree = "<group>"; };
+		F83DD04C1E7768A3003C03E7 /* SoilRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoilRecordTableViewCell.swift; sourceTree = "<group>"; };
+		F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSoilRecordViewController.swift; sourceTree = "<group>"; };
+		F83DD0501E7776EF003C03E7 /* Add Column-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Column-50.png"; sourceTree = "<group>"; };
+		F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Property-50@2x.png"; sourceTree = "<group>"; };
+		F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bulleted List-50@2x.png"; sourceTree = "<group>"; };
+		F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecordTableViewCell.swift; sourceTree = "<group>"; };
+		F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SoilRecords.sqlite3; path = ../../../SoilRecords.sqlite3; sourceTree = "<group>"; };
+		F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		F898EEBE1E8D7BE900A0E66E /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		F898EEC01E8D9D5900A0E66E /* SoilMoisture-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoilMoisture-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLogViewController.swift; sourceTree = "<group>"; };
 		F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +87,7 @@
 		F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMetadata.swift; sourceTree = "<group>"; };
 		F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoilDataRecord.swift; sourceTree = "<group>"; };
 		F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
+		F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMetadaViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F898EEBD1E8D7B9100A0E66E /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,10 +119,12 @@
 		F836C0A31E7721E700647893 = {
 			isa = PBXGroup;
 			children = (
+				F898EEBE1E8D7BE900A0E66E /* DBManager.swift */,
 				F836C0AE1E7721E700647893 /* SoilMoisture */,
 				F836C0C51E7721E700647893 /* SoilMoistureTests */,
 				F836C0D01E7721E700647893 /* SoilMoistureUITests */,
 				F836C0AD1E7721E700647893 /* Products */,
+				F898EEBB1E8D7B9000A0E66E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,7 +141,9 @@
 		F836C0AE1E7721E700647893 /* SoilMoisture */ = {
 			isa = PBXGroup;
 			children = (
+				F898EEC01E8D9D5900A0E66E /* SoilMoisture-Bridging-Header.h */,
 				F836C0AF1E7721E700647893 /* AppDelegate.swift */,
+				F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */,
 				F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */,
 				F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */,
 				F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */,
@@ -123,6 +151,9 @@
 				F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */,
 				F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */,
 				F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */,
+				F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */,
+				F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */,
+				F83DD04B1E774A18003C03E7 /* TableViewCells */,
 				F836C0B81E7721E700647893 /* Assets.xcassets */,
 				F836C0BA1E7721E700647893 /* LaunchScreen.storyboard */,
 				F836C0E11E77232C00647893 /* Image Assets */,
@@ -154,10 +185,31 @@
 			children = (
 				F8FB4E971E7727AD00F13DD7 /* Checklist-50@2x.png */,
 				F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */,
+				F83DD0501E7776EF003C03E7 /* Add Column-50.png */,
+				F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */,
+				F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */,
 				F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */,
 				F8FB4E991E77284700F13DD7 /* Line Chart-50@2x.png */,
 			);
 			name = "Image Assets";
+			sourceTree = "<group>";
+		};
+		F83DD04B1E774A18003C03E7 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				F83DD0491E774A11003C03E7 /* TextInputTableViewCell.swift */,
+				F83DD04C1E7768A3003C03E7 /* SoilRecordTableViewCell.swift */,
+				F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		F898EEBB1E8D7B9000A0E66E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,12 +323,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8FB4E9C1E77288C00F13DD7 /* Settings-50@2x.png in Resources */,
+				F83DD0981E855FAB003C03E7 /* SoilRecords.sqlite3 in Resources */,
 				F8FB4E9A1E77284700F13DD7 /* Line Chart-50@2x.png in Resources */,
 				F8FB4E981E7727AD00F13DD7 /* Checklist-50@2x.png in Resources */,
 				F836C0E01E77232800647893 /* logo_nasa_trio_black@2x.png in Resources */,
 				F836C0BC1E7721E700647893 /* LaunchScreen.storyboard in Resources */,
+				F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */,
+				F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */,
 				F836C0B91E7721E700647893 /* Assets.xcassets in Resources */,
 				F836C0B71E7721E700647893 /* Main.storyboard in Resources */,
+				F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,10 +359,16 @@
 			files = (
 				F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */,
 				F8FB4EA21E773A6500F13DD7 /* DatabaseHandler.swift in Sources */,
+				F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */,
+				F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */,
 				F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */,
+				F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */,
 				F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */,
 				F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */,
 				F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */,
+				F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */,
+				F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */,
+				F83DD04F1E776DCC003C03E7 /* AddSoilRecordViewController.swift in Sources */,
 				F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,6 +526,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "SoilMoisture-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -477,6 +540,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "SoilMoisture-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
