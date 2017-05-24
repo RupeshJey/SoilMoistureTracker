@@ -11,7 +11,7 @@ import UIKit
 
 class DBManager: NSObject {
 
-    var documentsDirectory:String = ""
+    /*var documentsDirectory:String = ""
     var databaseFilename:String = ""
     
     var arrColumnNames:[String] = []
@@ -47,21 +47,43 @@ class DBManager: NSObject {
     
     func runQuery(query:String, queryExecutable:Bool) {
         print("Doing")
-        //(query as NSString).utf8String
-        
-        // Create a sqlite object.
-        //var sqlite3Database:sqlite3
         
         let databasePath = documentsDirectory.appending(self.databaseFilename)
         
         var sqlite3Database: OpaquePointer? = nil
         
-        if sqlite3_open(databasePath, &sqlite3Database) != SQLITE_OK {
+        if sqlite3_open(databasePath, &sqlite3Database) == SQLITE_OK {
+            
+            var statement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(sqlite3Database, query, -1, &statement, nil) == SQLITE_OK {
+                
+                if (queryExecutable) {
+                    // query is executable (insert, update, delete)
+                    
+                    let arrDataRow:[String] = []
+                    
+                    while (sqlite3_step(statement) == SQLITE_ROW) {
+                        
+                    }
+                }
+                
+                else {
+                    // query is not executable (select)
+                }
+            }
+            
+            else {
+                print("error preparing database")
+            }
+            
+            sqlite3_finalize(statement)
+        }
+        
+        else {
             print("error opening database")
         }
-    }
-        //:(const char *)query isQueryExecutable:(BOOL)queryExecutable;
-    
-    
-    
+        
+        sqlite3_close(sqlite3Database)
+    }*/
 }

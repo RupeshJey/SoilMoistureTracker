@@ -7,30 +7,64 @@
 //
 
 import UIKit
+import CoreLocation
 
-class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate {
 
     let openedKeyID = "openedBefore"
+    let userMetadataID = "userMetadata"
+    
+    @IBOutlet weak var Save: UIButton!
+    @IBOutlet weak var DataTable: UITableView!
+    
+    var nrfManagerInstance:NRFManager!
+    
+    var invalid:String = "-------"
+    
+    var date:String = ""
+    var resistance:String = ""
+    var temperature:String = ""
+    var moisture:String = ""
+    
+    var temp:Double = 0.0
+    
+    var locManager = CLLocationManager()
+    
+    var image:UIImage?
+    var imageBool:Bool = false
+    
+    var shouldRefreshSensor:Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        //createDBTest()
+        setupInvalids()
+        
+        enableButtons(enabled: false)
+        
+        locManager.delegate = self
+        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.requestWhenInUseAuthorization()
+        locManager.startMonitoringSignificantLocationChanges()
+        
+        // Check if the user allowed authorization
+        if (CLLocationManager.authorizationStatus() == .authorizedAlways ||
+            CLLocationManager.authorizationStatus() == .authorizedWhenInUse)
+        {
+            print(locManager.location!)
+            
+        } else {
+            //labelLatitude.text = "Location not authorized"
+            //labelLongitude.text = "Location not authorized"
+        }
+
+        //self.view.bringSubview(toFront: DataTable)
+        
+        DataTable.isUserInteractionEnabled = true
+        DataTable.rowHeight = UITableViewAutomaticDimension
     }
-    
-    /*func getDirectoryPath() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }*/
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -40,6 +74,19 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidAppear(_ animated: Bool) {
         
         if !self.hasOpenedBefore() {self.getMetadata()}
+        
+        measure(0)
+        
+        let weather = WeatherGetter.init(delegate: self)
+        weather.getWeather(latitude: String(locManager.location!.coordinate.latitude), longitude: String(locManager.location!.coordinate.longitude))
+    }
+    
+    // Make the main data fields as invalid (sensor hasn't collected)
+    func setupInvalids() {
+        date = invalid
+        resistance = invalid
+        temperature = invalid
+        moisture = invalid
     }
     
     // Check whether the app has been opened before
@@ -51,80 +98,322 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         self.present(nextVC, animated: true, completion: nil)
     }
     
-    func hasOpenedBefore() -> Bool {return UserDefaults.standard.bool(forKey: openedKeyID)}
+    func hasOpenedBefore() -> Bool {
+        return UserDefaults.standard.bool(forKey: openedKeyID)
+    }
     
-    // TODO: Connect this feature to Arduino sensor to get valid sensor data
+    // Enable/disable the buttons on the page
+    
+    func enableButtons(enabled:Bool) {
+        if (enabled) {
+            //Discard.isEnabled = true
+            //Save.isEnabled = true
+        }
+        else {
+            //Discard.isEnabled = false
+            //Save.isEnabled = false
+        }
+    }
+    
+    // This function handles data collection from the sensor and error handling
     @IBAction func measure(_ sender: Any) {
         print("Measuring!")
+        
+        if(!getArduinoData()) {
+            let alert = UIAlertController(title: "Error", message: "Could not connect to Arduino. Please check the connection and try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
-    // TODO: Pull up new page to finalize data point addition
+    // TODO: Connect this feature to Arduino sensor to get valid sensor data
+    func getArduinoData() -> Bool {
+        
+        //print("Doing nothing here")
+        
+        nrfManagerInstance = NRFManager(
+            onConnect: {
+                print("Connected")
+                //self.sendData()
+        },
+            onDisconnect: {
+                print("Disconnected")
+        },
+            onData: {
+                (data:Data?, string:String?)->() in
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
+                
+                self.date = formatter.string(from: Date())
+                
+                //let dataString = String(describing: data)
+                
+                //print("Received data - String: \(string!) - Data: \(dataString)")
+                
+                //if
+                
+                let indexStartOfText = string!.index(string!.startIndex, offsetBy: 3)
+                
+                if string!.contains("A: ") {
+                    //print(string!)
+                }
+                
+                if string!.contains("V: ") {
+                    //print(string!)
+                }
+                
+                if string!.contains("R: ") {
+                    self.resistance = string!.substring(from: indexStartOfText)
+                }
+                
+                if (self.shouldRefreshSensor) {
+                    self.DataTable.reloadData()
+                }
+                
+                self.enableButtons(enabled: true)
+        }
+        )
+        
+        nrfManagerInstance.autoConnect = false
+        
+        //nrfManagerInstance.verbose = true
+        
+        nrfManagerInstance.connect("JPLSoil")
+        
+        //nrfManager.connect("UART")
+        
+        
+        /*let sensor = SensorGetter()
+        
+        sensor.parseData()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
+        
+        date = formatter.string(from: Date())
+        resistance = sensor.resistance
+        temperature = sensor.temperature*/
+        
+        return true
+    }
+    
+    // Pull up new page to finalize data point addition
     @IBAction func save(_ sender: Any) {
         print("Saving!")
+        
+        /*let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewRecordViewController") as! UINavigationController
+        (nextVC.topViewController as! NewRecordViewController).setSensorData(sensorDate: date, sensorResistance: resistance, sensorTemperature: temperature, sensorMoisture: moisture)
+        nextVC.modalTransitionStyle = .coverVertical
+        self.present(nextVC, animated: true, completion: nil)*/
+        
     }
     
-    // TODO: Discard the collected data
+    // Discard the collected data
     @IBAction func discard(_ sender: Any) {
         print("Discarding!")
+        
+        setupInvalids()
+        enableButtons(enabled: false)
+        
     }
     
-    // Table View Methods
+    // ---------------------------
+    
+    // MARK: Table View Methods
+    
+    // ---------------------------
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        return 1
+        if (hasOpenedBefore()) {
+            return 3
+        }
+        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return 4
+        switch section {
+        case 0:
+            return 4
+        case 1:
+            return 3
+        case 2:
+            return 4
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
-        
-        do {
-            let path = NSSearchPathForDirectoriesInDomains(
-                .documentDirectory, .userDomainMask, true
-                ).first!
-            //let db = try Connection("\(path)/db.sqlite3")
+        switch indexPath.section {
+        case 0:
             
-            //let users = Table("users")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
+            cell.selectionStyle = .none
+            cell.detailTextLabel?.textColor = .black
             
             switch indexPath.row {
             case 0:
                 cell.textLabel?.text = "Date"
-                //cell.detailTextLabel?.text = try db.pluck(users)?[date]
+                cell.detailTextLabel?.text = date
+                if date == invalid {cell.detailTextLabel?.textColor = .red}
             case 1:
                 cell.textLabel?.text = "Resistance"
-            //cell.detailTextLabel?.text = "15 k-Ohms"
+                cell.detailTextLabel?.text = resistance
+                if resistance == invalid {cell.detailTextLabel?.textColor = .red}
             case 2:
                 cell.textLabel?.text = "Temperature"
-            //cell.detailTextLabel?.text = "5 ℃"
+                cell.detailTextLabel?.text = temperature
+                if temperature == invalid {cell.detailTextLabel?.textColor = .red}
             case 3:
                 cell.textLabel?.text = "Moisture"
-            //cell.detailTextLabel?.text = "10 g/mL"
+                cell.detailTextLabel?.text = moisture
+                if moisture == invalid {cell.detailTextLabel?.textColor = .red}
             default:
                 cell.textLabel?.text = "Date"
             }
             
-            //print(cell.frame.width)
-        }
-        catch {
-            print("ERROR SOMEWHERE")
-            cell.detailTextLabel?.text = "-------"
-            cell.detailTextLabel?.textColor = .red
+            return cell
+            
+        case 1:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+            
+            cell.selectionStyle = .none
+            
+            switch indexPath.row {
+            case 0:
+                
+                cell.title.text = "Weather"
+                cell.detail?.text = String("\(round(100*temp)/100) ℉")
+                cell.detail?.text = String("\(round(100*self.temp)/100) ℉")
+                
+            case 1:
+                let cell2 = tableView.dequeueReusableCell(withIdentifier: "coordinateCell", for: indexPath) as! NewRecordTableViewCell
+                cell.title.text = "Lat/Long"
+                
+                cell.detail?.text = "(\(round(1000*locManager.location!.coordinate.latitude)/1000), \(round(1000*locManager.location!.coordinate.longitude)/1000))"
+                
+            case 2:
+                cell.title.text = "OS"
+                cell.detail?.text = "iOS \(UIDevice.current.systemVersion)"
+            default:
+                cell.title.text = ""
+            }
+            
+            return cell
+            
+        case 2:
+            
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                cell.selectionStyle = .none
+                cell.title.text = "User ID"
+                let data = UserDefaults.standard.object(forKey: userMetadataID) as? NSData
+                let metadata = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! UserMetadata
+                
+                cell.detail.text = metadata.userID
+                
+                if (cell.detail.text == "") {
+                    cell.detail.text = "----"
+                    cell.detail.textColor = .red
+                }
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                cell.title.text = "Site"
+                cell.detail.text = ""
+                cell.isUserInteractionEnabled = true
+                cell.accessoryType = .disclosureIndicator
+                return cell
+            case 2:
+                
+                if (image == nil) {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                    cell.title.text = "Image"
+                    cell.isUserInteractionEnabled = true
+                    
+                    let imageView:UIImageView
+                    imageView = UIImageView(image: #imageLiteral(resourceName: "Screenshot-50"))
+                    
+                    imageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+                    cell.accessoryView = imageView
+                    
+                    return cell
+                }
+                
+                else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "imageRecordCell", for: indexPath) as! ImageRecordTableViewCell
+                    print("Returning here")
+                    cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 128)
+                    cell.ImageView.image = self.image
+                    
+                    return cell
+                }
+            
+                
+                
+            case 3:
+                
+                let cell2 = tableView.dequeueReusableCell(withIdentifier: "noteRecordCell", for: indexPath) as! NoteRecordTableViewCell
+                cell2.setup(delegate: self)
+                return cell2
+                
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                cell.title.text = ""
+                return cell
+            }
+            
+            
+            
+        default:
+            print("")
         }
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case 2:
+            switch indexPath.row {
+            case 1:
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "soilTypeSelect")
+                navigationController?.pushViewController(vc, animated: true)
+            case 2:
+                
+                if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                    
+                    let imagePicker = UIImagePickerController()
+                    
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .camera
+                    imagePicker.allowsEditing = false
+                    
+                    self.present(imagePicker, animated: true, completion: nil)
+                }
+            
+            default:
+                print("s")
+            }
+        default:
+            print("H")
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
         
         NSLog("Pushed!")
     }
@@ -135,11 +424,86 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         case 0:
             return "Sensor Data"
         case 1:
-            return ""
+            return "App Collected Data"
+        case 2:
+            return "User Input"
         default:
             return ""
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 2 && indexPath.row == 2 && imageBool == true) {
+            return 128;
+        }
+        else {
+            return 44;
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        NSLog("\(info)")
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.image = image
+            imageBool = true
+            dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func didGetWeather(weather: Weather) {
+        
+        DispatchQueue.main.async() {
+            self.temp = weather.tempFahrenheit
+            self.DataTable.reloadData()
+        }
+        
+    }
+    
+    func didNotGetWeather(error: NSError) {
+        print("didNotGetWeather error: \(error)")
+    }
+    
+    func didBeginEditing() {
+        shouldRefreshSensor = false
+        
+        if (imageBool) {
+            DataTable.setContentOffset(CGPoint.init(x: 0, y: 334), animated: true)
+        }
+        
+        else {
+            DataTable.setContentOffset(CGPoint.init(x: 0, y: 250), animated: true)
+        }
+        
+        
+        DataTable.allowsSelection = false
+    }
+    
+    func didEndEditing() {
+        shouldRefreshSensor = true
+        if (imageBool) {
+            DataTable.setContentOffset(CGPoint(x: 0, y: 199), animated: true)
+        }
+            
+        else {
+            DataTable.setContentOffset(CGPoint(x: 0, y: 115), animated: true)
+        }
+        
+        DataTable.allowsSelection = true
+        
+        measure(0)
+    }
+    
+    // ---------------------------
+    
+    // MARK: Bluetooth Methods
+    
+    // ---------------------------
+    
+    func sendData()
+    {
+        let result = self.nrfManagerInstance.writeString("Hello, world!")
     }
     
     /*

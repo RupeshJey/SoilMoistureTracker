@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */; };
+		F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8323C191EAFB0B2003531A6 /* NRFManager.swift */; };
+		F8323C1C1EAFFCF2003531A6 /* Soil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8323C1B1EAFFCF2003531A6 /* Soil.swift */; };
 		F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F836C0AF1E7721E700647893 /* AppDelegate.swift */; };
 		F836C0B71E7721E700647893 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F836C0B51E7721E700647893 /* Main.storyboard */; };
 		F836C0B91E7721E700647893 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F836C0B81E7721E700647893 /* Assets.xcassets */; };
@@ -21,9 +24,16 @@
 		F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */; };
 		F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */; };
 		F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */; };
-		F83DD0981E855FAB003C03E7 /* SoilRecords.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */; };
-		F898EEBD1E8D7B9100A0E66E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */; };
+		F841CDDC1EA6858300EEDE25 /* water hose clear flow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */; };
+		F841CDDE1EA68B9900EEDE25 /* SensorGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */; };
+		F841CDE11EA691E900EEDE25 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */; };
 		F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEBE1E8D7BE900A0E66E /* DBManager.swift */; };
+		F898EEC41E94195100A0E66E /* NewRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC31E94195100A0E66E /* NewRecordViewController.swift */; };
+		F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */; };
+		F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */; };
+		F8BC8D241EB8F01300064318 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BC8D231EB8F01300064318 /* Site.swift */; };
+		F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */; };
+		F8DE3AF21E9D492100C9749D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE3AF11E9D492100C9749D /* Weather.swift */; };
 		F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */; };
 		F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */; };
 		F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */; };
@@ -32,8 +42,13 @@
 		F8FB4E9C1E77288C00F13DD7 /* Settings-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */; };
 		F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */; };
 		F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */; };
-		F8FB4EA21E773A6500F13DD7 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */; };
 		F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */; };
+		F8FEA0711EC22F5000FBD739 /* Screenshot-50.png in Resources */ = {isa = PBXBuildFile; fileRef = F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */; };
+		F8FEA0731EC23E7800FBD739 /* NoteRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0721EC23E7800FBD739 /* NoteRecordTableViewCell.swift */; };
+		F8FEA0751EC2418900FBD739 /* ImageRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0741EC2418900FBD739 /* ImageRecordTableViewCell.swift */; };
+		F8FEA0771EC24FF000FBD739 /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */; };
+		F8FEA0791EC2510900FBD739 /* SitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0781EC2510900FBD739 /* SitesViewController.swift */; };
+		F8FEA07B1EC2529E00FBD739 /* AddSiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +69,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTableViewCell.swift; sourceTree = "<group>"; };
+		F8323C191EAFB0B2003531A6 /* NRFManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRFManager.swift; sourceTree = "<group>"; };
+		F8323C1B1EAFFCF2003531A6 /* Soil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Soil.swift; sourceTree = "<group>"; };
 		F836C0AC1E7721E700647893 /* SoilMoisture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoilMoisture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F836C0AF1E7721E700647893 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F836C0B61E7721E700647893 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -74,10 +92,17 @@
 		F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Property-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bulleted List-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecordTableViewCell.swift; sourceTree = "<group>"; };
-		F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SoilRecords.sqlite3; path = ../../../SoilRecords.sqlite3; sourceTree = "<group>"; };
+		F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "water hose clear flow.jpg"; path = "../../../../Downloads/water hose clear flow.jpg"; sourceTree = "<group>"; };
+		F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorGetter.swift; sourceTree = "<group>"; };
+		F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sandbox-50@2x.png"; path = "../../../../Downloads/Sandbox-50@2x.png"; sourceTree = "<group>"; };
 		F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F898EEBE1E8D7BE900A0E66E /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		F898EEC01E8D9D5900A0E66E /* SoilMoisture-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoilMoisture-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		F898EEC31E94195100A0E66E /* NewRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordViewController.swift; sourceTree = "<group>"; };
+		F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordTableViewCell.swift; sourceTree = "<group>"; };
+		F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoilTypeTableViewController.swift; path = ../SoilTypeTableViewController.swift; sourceTree = "<group>"; };
+		F8BC8D231EB8F01300064318 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherGetter.swift; sourceTree = "<group>"; };
+		F8DE3AF11E9D492100C9749D /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLogViewController.swift; sourceTree = "<group>"; };
 		F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationViewController.swift; sourceTree = "<group>"; };
@@ -86,8 +111,13 @@
 		F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-50@2x.png"; sourceTree = "<group>"; };
 		F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMetadata.swift; sourceTree = "<group>"; };
 		F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoilDataRecord.swift; sourceTree = "<group>"; };
-		F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
 		F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMetadaViewController.swift; sourceTree = "<group>"; };
+		F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot-50.png"; sourceTree = "<group>"; };
+		F8FEA0721EC23E7800FBD739 /* NoteRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteRecordTableViewCell.swift; sourceTree = "<group>"; };
+		F8FEA0741EC2418900FBD739 /* ImageRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageRecordTableViewCell.swift; path = ../ImageRecordTableViewCell.swift; sourceTree = "<group>"; };
+		F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = ../SiteTableViewCell.swift; sourceTree = "<group>"; };
+		F8FEA0781EC2510900FBD739 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
+		F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSiteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F898EEBD1E8D7B9100A0E66E /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +148,12 @@
 		F836C0A31E7721E700647893 = {
 			isa = PBXGroup;
 			children = (
+				F8DE3AF11E9D492100C9749D /* Weather.swift */,
 				F898EEBE1E8D7BE900A0E66E /* DBManager.swift */,
+				F8323C191EAFB0B2003531A6 /* NRFManager.swift */,
+				F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */,
+				F8323C1B1EAFFCF2003531A6 /* Soil.swift */,
+				F8BC8D231EB8F01300064318 /* Site.swift */,
 				F836C0AE1E7721E700647893 /* SoilMoisture */,
 				F836C0C51E7721E700647893 /* SoilMoistureTests */,
 				F836C0D01E7721E700647893 /* SoilMoistureUITests */,
@@ -141,18 +175,20 @@
 		F836C0AE1E7721E700647893 /* SoilMoisture */ = {
 			isa = PBXGroup;
 			children = (
-				F898EEC01E8D9D5900A0E66E /* SoilMoisture-Bridging-Header.h */,
 				F836C0AF1E7721E700647893 /* AppDelegate.swift */,
 				F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */,
+				F8FEA0781EC2510900FBD739 /* SitesViewController.swift */,
+				F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */,
+				F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */,
 				F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */,
 				F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */,
 				F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */,
 				F836C0B51E7721E700647893 /* Main.storyboard */,
 				F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */,
 				F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */,
-				F8FB4EA11E773A6500F13DD7 /* DatabaseHandler.swift */,
 				F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */,
-				F83DD0971E855FAB003C03E7 /* SoilRecords.sqlite3 */,
+				F898EEC31E94195100A0E66E /* NewRecordViewController.swift */,
+				F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */,
 				F83DD04B1E774A18003C03E7 /* TableViewCells */,
 				F836C0B81E7721E700647893 /* Assets.xcassets */,
 				F836C0BA1E7721E700647893 /* LaunchScreen.storyboard */,
@@ -183,12 +219,15 @@
 		F836C0E11E77232C00647893 /* Image Assets */ = {
 			isa = PBXGroup;
 			children = (
+				F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */,
+				F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */,
 				F8FB4E971E7727AD00F13DD7 /* Checklist-50@2x.png */,
 				F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */,
 				F83DD0501E7776EF003C03E7 /* Add Column-50.png */,
 				F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */,
 				F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */,
 				F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */,
+				F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */,
 				F8FB4E991E77284700F13DD7 /* Line Chart-50@2x.png */,
 			);
 			name = "Image Assets";
@@ -197,9 +236,14 @@
 		F83DD04B1E774A18003C03E7 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */,
+				F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */,
+				F8FEA0721EC23E7800FBD739 /* NoteRecordTableViewCell.swift */,
+				F8FEA0741EC2418900FBD739 /* ImageRecordTableViewCell.swift */,
 				F83DD0491E774A11003C03E7 /* TextInputTableViewCell.swift */,
 				F83DD04C1E7768A3003C03E7 /* SoilRecordTableViewCell.swift */,
 				F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */,
+				F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -323,15 +367,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8FB4E9C1E77288C00F13DD7 /* Settings-50@2x.png in Resources */,
-				F83DD0981E855FAB003C03E7 /* SoilRecords.sqlite3 in Resources */,
 				F8FB4E9A1E77284700F13DD7 /* Line Chart-50@2x.png in Resources */,
 				F8FB4E981E7727AD00F13DD7 /* Checklist-50@2x.png in Resources */,
 				F836C0E01E77232800647893 /* logo_nasa_trio_black@2x.png in Resources */,
 				F836C0BC1E7721E700647893 /* LaunchScreen.storyboard in Resources */,
 				F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */,
 				F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */,
+				F841CDDC1EA6858300EEDE25 /* water hose clear flow.jpg in Resources */,
 				F836C0B91E7721E700647893 /* Assets.xcassets in Resources */,
 				F836C0B71E7721E700647893 /* Main.storyboard in Resources */,
+				F841CDE11EA691E900EEDE25 /* Sandbox-50@2x.png in Resources */,
+				F8FEA0711EC22F5000FBD739 /* Screenshot-50.png in Resources */,
 				F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,18 +404,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */,
-				F8FB4EA21E773A6500F13DD7 /* DatabaseHandler.swift in Sources */,
+				F8DE3AF21E9D492100C9749D /* Weather.swift in Sources */,
+				F8FEA0731EC23E7800FBD739 /* NoteRecordTableViewCell.swift in Sources */,
+				F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */,
+				F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */,
+				F8FEA0751EC2418900FBD739 /* ImageRecordTableViewCell.swift in Sources */,
 				F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */,
 				F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */,
+				F8323C1C1EAFFCF2003531A6 /* Soil.swift in Sources */,
+				F8BC8D241EB8F01300064318 /* Site.swift in Sources */,
 				F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */,
 				F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */,
+				F898EEC41E94195100A0E66E /* NewRecordViewController.swift in Sources */,
 				F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */,
 				F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */,
+				F8FEA07B1EC2529E00FBD739 /* AddSiteViewController.swift in Sources */,
+				F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */,
 				F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */,
+				F841CDDE1EA68B9900EEDE25 /* SensorGetter.swift in Sources */,
 				F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */,
 				F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */,
+				F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */,
+				F8FEA0791EC2510900FBD739 /* SitesViewController.swift in Sources */,
+				F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */,
 				F83DD04F1E776DCC003C03E7 /* AddSoilRecordViewController.swift in Sources */,
 				F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */,
+				F8FEA0771EC24FF000FBD739 /* SiteTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +586,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "SoilMoisture-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -540,7 +599,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "SoilMoisture-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

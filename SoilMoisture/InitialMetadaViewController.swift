@@ -25,7 +25,11 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
     let notes = Expression<String>("notes")*/
     
     let openedKeyID = "openedBefore"
+    let userMetadataID = "userMetadata"
     
+    var UID = ""
+    
+    @IBOutlet weak var MetadataTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,47 +38,24 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
     
     @IBAction func done(_ sender: Any) {
         
-        //createDB()
+        for view in self.MetadataTable.subviews {
+            if view.tag == 7 {
+                UID = (view as! TextInputTableViewCell).textField.text!
+                
+                print("UserID: ", UID)
+            }
+        }
         
-        //UserDefaults.standard.set(true, forKey: openedKeyID)
+        let UM:UserMetadata = UserMetadata.init(UID: UID, deviceOS: UIDevice.current.systemVersion)
+        
+        print("UserID: ", UM.userID)
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: UM)
+        UserDefaults.standard.set(data, forKey: userMetadataID)
+        
+        UserDefaults.standard.set(true, forKey: openedKeyID)
         self.dismiss(animated: true, completion: nil)
     }
-    
-    /*func createDB() {
-        do {
-            let path = NSSearchPathForDirectoriesInDomains(
-                .documentDirectory, .userDomainMask, true
-                ).first!
-            let db = try Connection("\(path)/db.sqlite3")
-            
-            let users = Table("users")
-            
-            try db.run(users.create(ifNotExists: true) {t in
-                t.column(id, primaryKey: true)
-                t.column(date)
-                t.column(userID)
-                t.column(soilType)
-                t.column(siteID)
-                t.column(resistivity)
-                t.column(moisture)
-                t.column(weather)
-                t.column(coordinates)
-                t.column(OS)
-                t.column(image)
-                t.column(notes)
-            })
-            
-            try print(String.init(contentsOfFile: "\(path)/db.sqlite3", encoding: String.Encoding.utf8))
-            
-            //UserDefaults.standard.setValue(db, forKey: "Database")
-            
-            print("Done!")
-            //try db.run(users.insert(date <- "Friday, March 24 2017, 6:08 PM", resistivity <- "30 k-Ohms", moisture <- "10 g/mL", weather <- "10 ℃"))
-        }
-        catch {
-            print(error)
-        }
-    }*/
     
 
     override func didReceiveMemoryWarning() {
@@ -106,9 +87,11 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "newCell", for: indexPath) as! TextInputTableViewCell
         
+        
         switch indexPath.row {
         case 0:
             cell.textField.placeholder = "Username"
+            cell.tag = 7
         case 1:
             cell.textField.placeholder = "Password"
             cell.textField.isSecureTextEntry = true
@@ -120,6 +103,8 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
         
         NSLog("Pushed!")
     }
@@ -134,7 +119,14 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
         default:
             return ""
         }
-
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        NSLog("HEY IM DONE")
+        
+        if indexPath?.row == 0 {
+            UID = (tableView.cellForRow(at: indexPath!)?.textLabel?.text)!
+        }
     }
     
     /*

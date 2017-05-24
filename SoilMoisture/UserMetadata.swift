@@ -8,15 +8,12 @@
 
 import Foundation
 
-class UserMetadata: NSObject {
+class UserMetadata: NSObject, NSCoding {
     
     // UserMetadata Class Variables
     
     var userID = ""
     var OS = ""
-    
-    // Storyboard Objects
-    
     
     
     override init() {
@@ -30,4 +27,16 @@ class UserMetadata: NSObject {
         OS = deviceOS
     }
     
+    required convenience init(coder decoder: NSCoder) {
+        // Decode everything
+        self.init()
+        self.userID = decoder.decodeObject(forKey: "userID") as! String
+        self.OS = decoder.decodeObject(forKey: "OS") as! String
+    }
+    
+    func encode(with coder: NSCoder) {
+        // Encode everything
+        coder.encode(self.userID, forKey: "userID")
+        coder.encode(self.OS, forKey: "OS")
+    }
 }

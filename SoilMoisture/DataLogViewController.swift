@@ -29,7 +29,7 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    // Table View Methods
+    // Mark: Table View
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
