@@ -14,13 +14,27 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var soilRecord: UITableView!
     
+    let recordsID = "recordsID"
+    
+    var recordsArray:[Any]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        if (UserDefaults.standard.array(forKey: recordsID) == nil) {
+            UserDefaults.standard.set([], forKey: recordsID)
+        }
+        
+        recordsArray = UserDefaults.standard.array(forKey: recordsID)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        recordsArray = UserDefaults.standard.array(forKey: recordsID)
+        
+        self.soilRecord.reloadData()
+    }
 
     @IBAction func addSoilRecord(_ sender: Any) {
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddSoilRecordViewController")
@@ -44,7 +58,7 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         //homeworkIDArray = NSMutableArray(array: homeworkDict.allKeys)
         
-        return 2//homeworkDict.allKeys.count
+        return (recordsArray?.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,6 +78,16 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textField.isSecureTextEntry = true
         }*/
         
+        let soilRecordData = NSKeyedUnarchiver.unarchiveObject(with: recordsArray![indexPath.row] as! Data) as! SoilDataRecord
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
+        
+        cell.dateLabel.text = formatter.string(from: soilRecordData.date)
+        cell.moistureLabel.text = soilRecordData.moisture
+        cell.siteNameLabel.text = soilRecordData.siteName
+        
+        
         return cell
     }
     
@@ -72,18 +96,6 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         NSLog("Pushed!")
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        switch section {
-        case 0:
-            return "March"
-        case 1:
-            return ""
-        default:
-            return ""
-        }
-        
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -8,11 +8,15 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate {
-
+    
     let openedKeyID = "openedBefore"
     let userMetadataID = "userMetadata"
+    let recordsID = "recordsID"
+    
+    var recordsArray:[Any]?
     
     @IBOutlet weak var Save: UIButton!
     @IBOutlet weak var DataTable: UITableView!
@@ -34,6 +38,12 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     var imageBool:Bool = false
     
     var shouldRefreshSensor:Bool = true
+    
+    let newPin = MKPointAnnotation()
+    
+    var siteString = ""
+    
+    var soilRecord:SoilDataRecord?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +69,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             //labelLatitude.text = "Location not authorized"
             //labelLongitude.text = "Location not authorized"
         }
+        
+        UserDefaults.standard.set("", forKey: "tempSiteName")
+        
 
         //self.view.bringSubview(toFront: DataTable)
         
@@ -79,6 +92,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         let weather = WeatherGetter.init(delegate: self)
         weather.getWeather(latitude: String(locManager.location!.coordinate.latitude), longitude: String(locManager.location!.coordinate.longitude))
+        
+        siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
     }
     
     // Make the main data fields as invalid (sensor hasn't collected)
@@ -129,8 +144,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     // TODO: Connect this feature to Arduino sensor to get valid sensor data
     func getArduinoData() -> Bool {
         
-        //print("Doing nothing here")
-        
         nrfManagerInstance = NRFManager(
             onConnect: {
                 print("Connected")
@@ -165,6 +178,20 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
+                    //self.temp = 20.0
+                    self.temperature = "20℃"
+                    
+                    if (Double(self.resistance) != nil) {
+                        var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
+                        
+                        moistureValue = Double(round(1000*moistureValue)/1000)
+                        
+                        print("moisture value: ", moistureValue)
+                        self.moisture = String(moistureValue)
+                        self.moisture.append(" %")
+                    }
+                    
+                    
                 }
                 
                 if (self.shouldRefreshSensor) {
@@ -201,6 +228,23 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     // Pull up new page to finalize data point addition
     @IBAction func save(_ sender: Any) {
         print("Saving!")
+        
+        if (UserDefaults.standard.array(forKey: recordsID) == nil) {
+            UserDefaults.standard.set([], forKey: recordsID)
+        }
+        
+        recordsArray = UserDefaults.standard.array(forKey: recordsID)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
+        
+        soilRecord = SoilDataRecord.init(recordSiteName: self.siteString, recordDate:  Date.init(), recordMoisture: moisture)
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: self.soilRecord!)
+        
+        recordsArray?.append(data)
+        
+        UserDefaults.standard.set(recordsArray, forKey: recordsID)
         
         /*let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewRecordViewController") as! UINavigationController
         (nextVC.topViewController as! NewRecordViewController).setSensorData(sensorDate: date, sensorResistance: resistance, sensorTemperature: temperature, sensorMoisture: moisture)
@@ -285,30 +329,50 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
         case 1:
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-            
-            cell.selectionStyle = .none
-            
             switch indexPath.row {
             case 0:
-                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                cell.selectionStyle = .none
                 cell.title.text = "Weather"
                 cell.detail?.text = String("\(round(100*temp)/100) ℉")
                 cell.detail?.text = String("\(round(100*self.temp)/100) ℉")
                 
-            case 1:
-                let cell2 = tableView.dequeueReusableCell(withIdentifier: "coordinateCell", for: indexPath) as! NewRecordTableViewCell
-                cell.title.text = "Lat/Long"
+                return cell
                 
-                cell.detail?.text = "(\(round(1000*locManager.location!.coordinate.latitude)/1000), \(round(1000*locManager.location!.coordinate.longitude)/1000))"
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "coordinateCell", for: indexPath) as! CoordinateTableViewCell
+                cell.CoordinatesLabel.text = "(\(round(1000*locManager.location!.coordinate.latitude)/1000), \(round(1000*locManager.location!.coordinate.longitude)/1000))"
+                cell.selectionStyle = .none
+                let coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!,
+                                                                          1000 * 2.0, 1000 * 2.0)
+                cell.mapView.setRegion(coordinateRegion, animated: true)
+                newPin.coordinate = locManager.location!.coordinate
+                cell.mapView.addAnnotation(newPin)
+                cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 216)
+                cell.mapView.layer.cornerRadius = 20.0
+                //cell.mapView.layer.clipsToBounds = true
+                return cell
                 
             case 2:
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                
+                cell.selectionStyle = .none
                 cell.title.text = "OS"
                 cell.detail?.text = "iOS \(UIDevice.current.systemVersion)"
+                
+                return cell
             default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+                
+                cell.selectionStyle = .none
                 cell.title.text = ""
+                return cell
             }
             
+            let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
+            
+            cell.selectionStyle = .none
             return cell
             
         case 2:
@@ -331,9 +395,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
                 cell.title.text = "Site"
-                cell.detail.text = ""
+                if siteString == "" {
+                    cell.accessoryType = .disclosureIndicator
+                }
+                else {
+                    cell.accessoryType = .none
+                }
+                cell.detail.text = siteString
                 cell.isUserInteractionEnabled = true
-                cell.accessoryType = .disclosureIndicator
+                
                 return cell
             case 2:
                 
@@ -360,8 +430,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                     
                     return cell
                 }
-            
-                
                 
             case 3:
                 
@@ -374,8 +442,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.title.text = ""
                 return cell
             }
-            
-            
             
         default:
             print("")
@@ -391,8 +457,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         case 2:
             switch indexPath.row {
             case 1:
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "soilTypeSelect")
-                navigationController?.pushViewController(vc, animated: true)
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SiteSelectTableViewController")
+                self.present(vc, animated: true, completion: nil)
             case 2:
                 
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -414,8 +480,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        NSLog("Pushed!")
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -436,6 +500,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         if (indexPath.section == 2 && indexPath.row == 2 && imageBool == true) {
             return 128;
         }
+        else if (indexPath.section == 1 && indexPath.row == 1) {
+            return 216;
+        }
         else {
             return 44;
         }
@@ -448,6 +515,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             self.image = image
             imageBool = true
             dismiss(animated: true, completion: nil)
+            
+            DataTable.reloadData()
         }
         
     }

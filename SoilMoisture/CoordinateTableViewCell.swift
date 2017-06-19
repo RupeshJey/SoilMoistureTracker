@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import MapKit
 
 class CoordinateTableViewCell: UITableViewCell {
 
-    
+    @IBOutlet weak var CoordinatesLabel: UILabel!
+    @IBOutlet weak var mapView: MKMapView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
