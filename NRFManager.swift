@@ -231,7 +231,7 @@ extension NRFManager {
             log("Did Connect Peripheral")
             if currentPeripheral?.peripheral == peripheral {
                 if (peripheral.services) != nil {
-                    log("Did connect to existing peripheral: \(peripheral.name)")
+                    log("Did connect to existing peripheral: \(String(describing: peripheral.name))")
                     currentPeripheral?.peripheral(peripheral, didDiscoverServices: nil)
                 } else {
                     log("Did connect peripheral: \(peripheral.name!)")
@@ -242,7 +242,7 @@ extension NRFManager {
     
         public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?)
         {
-            log("Peripheral Disconnected: \(peripheral.name)")
+            log("Peripheral Disconnected: \(String(describing: peripheral.name))")
             
             if currentPeripheral?.peripheral == peripheral {
                 connectionStatus = ConnectionStatus.disconnected
@@ -272,7 +272,7 @@ extension NRFManager {
             log("Data: \(newData)");
             
             let string = NSString(data: newData, encoding:String.Encoding.utf8.rawValue)
-            log("String: \(string)")
+            log("String: \(String(describing: string))")
             
             dataCallback?(newData, string! as String)
             delegate?.nrfReceivedData?(self, data:newData, string: string! as String)
@@ -428,7 +428,7 @@ extension UARTPeripheral {
                 }
             }
         } else {
-            log("Error discovering characteristics: \(error)")
+            log("Error discovering characteristics: \(String(describing: error))")
             delegate.uartDidEncounterError("Error discovering services")
             return
         }
@@ -445,7 +445,7 @@ extension UARTPeripheral {
                 }
             }
         } else {
-            log("Error discovering characteristics: \(error)")
+            log("Error discovering characteristics: \(String(describing: error))")
             delegate.uartDidEncounterError("Error discovering characteristics")
             return
         }
@@ -467,7 +467,7 @@ extension UARTPeripheral {
 
             }
         } else {
-            log("Error receiving notification for characteristic: \(error)")
+            log("Error receiving notification for characteristic: \(String(describing: error))")
             delegate.uartDidEncounterError("Error receiving notification for characteristic")
             return
         }

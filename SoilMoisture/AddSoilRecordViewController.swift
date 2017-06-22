@@ -12,91 +12,69 @@ import MapKit
 
 class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate {
     
-    let openedKeyID = "openedBefore"
-    let userMetadataID = "userMetadata"
-    let recordsID = "recordsID"
+    // DECLARE VARIABLES
     
-    var recordsArray:[Any]?
+    let openedKeyID = "openedBefore",       // Constant
+        userMetadataID = "userMetadata",    // Constant
+        recordsID = "recordsID"             // Constant
     
-    @IBOutlet weak var Save: UIButton!
-    @IBOutlet weak var DataTable: UITableView!
+    var invalid:String = "-------",         // Default invalid value for all strings
+        date:String = "",                   // Date
+        resistance:String = "",             // Sensor-measured resistance
+        temperature:String = "",            // Sensor-measured temperature
+        moisture:String = "",               // Sensor-measured moisture
+        siteString = "",                    // Selected site string
+        locManager = CLLocationManager(),   // Location Manager to get coordinates
+        temp:Double = 0.0,                  // Numerical temperature
+        image:UIImage?,                     // Image
+        imageBool:Bool = false,             // Boolean for image
+        shouldRefreshSensor:Bool = true,    // Boolean whether to refresh sensor
+        newPin = MKPointAnnotation(),       // Point for MapKit
+        soilRecord:SoilDataRecord?,         // Individual Soil Record
+        nrfManagerInstance:NRFManager!,     // Connector to Arduino
+        recordsArray:[Any]?                 // Array of records
     
-    var nrfManagerInstance:NRFManager!
+    @IBOutlet weak var Save: UIButton!          // Save Button
+    @IBOutlet weak var DataTable: UITableView!  // Data Table
     
-    var invalid:String = "-------"
+    // END VARIABLES
     
-    var date:String = ""
-    var resistance:String = ""
-    var temperature:String = ""
-    var moisture:String = ""
-    
-    var temp:Double = 0.0
-    
-    var locManager = CLLocationManager()
-    
-    var image:UIImage?
-    var imageBool:Bool = false
-    
-    var shouldRefreshSensor:Bool = true
-    
-    let newPin = MKPointAnnotation()
-    
-    var siteString = ""
-    
-    var soilRecord:SoilDataRecord?
-    
+    // View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // Set default labels
         setupInvalids()
         
-        enableButtons(enabled: false)
-        
+        // Set up the location manager
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBest
         locManager.requestWhenInUseAuthorization()
         locManager.startMonitoringSignificantLocationChanges()
         
-        // Check if the user allowed authorization
-        if (CLLocationManager.authorizationStatus() == .authorizedAlways ||
-            CLLocationManager.authorizationStatus() == .authorizedWhenInUse)
-        {
-            print(locManager.location!)
-            
-        } else {
-            //labelLatitude.text = "Location not authorized"
-            //labelLongitude.text = "Location not authorized"
-        }
-        
-        UserDefaults.standard.set("", forKey: "tempSiteName")
-        
-
-        //self.view.bringSubview(toFront: DataTable)
-        
-        DataTable.isUserInteractionEnabled = true
-        DataTable.rowHeight = UITableViewAutomaticDimension
+        // Temporarily set temporary site string
+        UserDefaults.standard.set(siteString, forKey: "tempSiteName")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    // View did appear
     override func viewDidAppear(_ animated: Bool) {
         
+        // Collect metadata if first load
         if !self.hasOpenedBefore() {self.getMetadata()}
         
-        measure(0)
+        // Collect sensor data
+        measure()
         
+        // Get weather by passing coordinates
         let weather = WeatherGetter.init(delegate: self)
         weather.getWeather(latitude: String(locManager.location!.coordinate.latitude), longitude: String(locManager.location!.coordinate.longitude))
         
+        // Update the temporary site string
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
     }
     
-    // Make the main data fields as invalid (sensor hasn't collected)
+    
+    // Mark the main data fields as invalid (sensor hasn't collected yet)
     func setupInvalids() {
         date = invalid
         resistance = invalid
@@ -104,35 +82,20 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         moisture = invalid
     }
     
-    // Check whether the app has been opened before
+    // Get metadata if necessary
     func getMetadata() {
-        print("Getting metadata")
-        
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InitialMetadaViewController")
         nextVC.modalTransitionStyle = .coverVertical
         self.present(nextVC, animated: true, completion: nil)
     }
     
+    // Helper function to tell whether app has been opened before
     func hasOpenedBefore() -> Bool {
         return UserDefaults.standard.bool(forKey: openedKeyID)
     }
     
-    // Enable/disable the buttons on the page
-    
-    func enableButtons(enabled:Bool) {
-        if (enabled) {
-            //Discard.isEnabled = true
-            //Save.isEnabled = true
-        }
-        else {
-            //Discard.isEnabled = false
-            //Save.isEnabled = false
-        }
-    }
-    
     // This function handles data collection from the sensor and error handling
-    @IBAction func measure(_ sender: Any) {
-        print("Measuring!")
+    func measure() {
         
         if(!getArduinoData()) {
             let alert = UIAlertController(title: "Error", message: "Could not connect to Arduino. Please check the connection and try again.", preferredStyle: .alert)
@@ -141,13 +104,12 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    // TODO: Connect this feature to Arduino sensor to get valid sensor data
+    // This function gets valid sensor data
     func getArduinoData() -> Bool {
         
         nrfManagerInstance = NRFManager(
             onConnect: {
                 print("Connected")
-                //self.sendData()
         },
             onDisconnect: {
                 print("Disconnected")
@@ -155,30 +117,16 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             onData: {
                 (data:Data?, string:String?)->() in
                 
+                // Set date string
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
-                
                 self.date = formatter.string(from: Date())
                 
-                //let dataString = String(describing: data)
-                
-                //print("Received data - String: \(string!) - Data: \(dataString)")
-                
-                //if
-                
+                // Pick out the resistance and evaluate moisture
                 let indexStartOfText = string!.index(string!.startIndex, offsetBy: 3)
-                
-                if string!.contains("A: ") {
-                    //print(string!)
-                }
-                
-                if string!.contains("V: ") {
-                    //print(string!)
-                }
                 
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
-                    //self.temp = 20.0
                     self.temperature = "20℃"
                     
                     if (Double(self.resistance) != nil) {
@@ -186,80 +134,38 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                         
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
-                        print("moisture value: ", moistureValue)
                         self.moisture = String(moistureValue)
                         self.moisture.append(" %")
                     }
-                    
-                    
                 }
                 
                 if (self.shouldRefreshSensor) {
                     self.DataTable.reloadData()
                 }
-                
-                self.enableButtons(enabled: true)
         }
         )
         
         nrfManagerInstance.autoConnect = false
-        
-        //nrfManagerInstance.verbose = true
-        
         nrfManagerInstance.connect("JPLSoil")
-        
-        //nrfManager.connect("UART")
-        
-        
-        /*let sensor = SensorGetter()
-        
-        sensor.parseData()
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
-        
-        date = formatter.string(from: Date())
-        resistance = sensor.resistance
-        temperature = sensor.temperature*/
         
         return true
     }
     
-    // Pull up new page to finalize data point addition
+    // Save record into user defaults
     @IBAction func save(_ sender: Any) {
         print("Saving!")
         
+        // Save blank array if defaults is empty
         if (UserDefaults.standard.array(forKey: recordsID) == nil) {
             UserDefaults.standard.set([], forKey: recordsID)
         }
         
         recordsArray = UserDefaults.standard.array(forKey: recordsID)
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy, hh:mm a zz"
-        
         soilRecord = SoilDataRecord.init(recordSiteName: self.siteString, recordDate:  Date.init(), recordMoisture: moisture)
         
         let data = NSKeyedArchiver.archivedData(withRootObject: self.soilRecord!)
-        
         recordsArray?.append(data)
-        
         UserDefaults.standard.set(recordsArray, forKey: recordsID)
-        
-        /*let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewRecordViewController") as! UINavigationController
-        (nextVC.topViewController as! NewRecordViewController).setSensorData(sensorDate: date, sensorResistance: resistance, sensorTemperature: temperature, sensorMoisture: moisture)
-        nextVC.modalTransitionStyle = .coverVertical
-        self.present(nextVC, animated: true, completion: nil)*/
-        
-    }
-    
-    // Discard the collected data
-    @IBAction func discard(_ sender: Any) {
-        print("Discarding!")
-        
-        setupInvalids()
-        enableButtons(enabled: false)
-        
     }
     
     // ---------------------------
@@ -268,20 +174,24 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // ---------------------------
     
+    // Set the number of sections in the table
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
+        // 3 if the table is to be loaded with sensor data
         if (hasOpenedBefore()) {
             return 3
         }
         
+        // 0 if metadata is to be collected first
         return 0
     }
     
+    // Set the number of rows in each section
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         
         switch section {
         case 0:
@@ -295,7 +205,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    // Set the cell for each row
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // Switch depending on row
         
         switch indexPath.section {
         case 0:
@@ -369,11 +283,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.title.text = ""
                 return cell
             }
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-            
-            cell.selectionStyle = .none
-            return cell
             
         case 2:
             
@@ -451,15 +360,24 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         return cell
     }
     
+    // Handle tableview selections
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Switch depending on row
         
         switch indexPath.section {
         case 2:
             switch indexPath.row {
             case 1:
+                
+                // Handle the site selection
+                
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SiteSelectTableViewController")
                 self.present(vc, animated: true, completion: nil)
             case 2:
+                
+                // Handle photo selection
                 
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
                     
@@ -482,6 +400,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    // Edit the name of the title in each section
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section {
@@ -496,6 +416,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    // Set height for each row
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath.section == 2 && indexPath.row == 2 && imageBool == true) {
             return 128;
@@ -508,9 +430,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    // Store the image from the image picker as the current image
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        NSLog("\(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
             imageBool = true
@@ -518,23 +441,27 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
             DataTable.reloadData()
         }
-        
     }
     
+    // If the weather getter comes back with data, set the temperature
+    
     func didGetWeather(weather: Weather) {
-        
         DispatchQueue.main.async() {
             self.temp = weather.tempFahrenheit
             self.DataTable.reloadData()
         }
-        
     }
+    
+    // Print if there is an error with the weather getter
     
     func didNotGetWeather(error: NSError) {
         print("didNotGetWeather error: \(error)")
     }
     
+    // Offset upon begin editing
     func didBeginEditing() {
+        
+        // Stop refreshing the sensor
         shouldRefreshSensor = false
         
         if (imageBool) {
@@ -545,23 +472,20 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             DataTable.setContentOffset(CGPoint.init(x: 0, y: 250), animated: true)
         }
         
-        
         DataTable.allowsSelection = false
     }
     
+    // Offset upon end editing and refresh
     func didEndEditing() {
         shouldRefreshSensor = true
         if (imageBool) {
             DataTable.setContentOffset(CGPoint(x: 0, y: 199), animated: true)
         }
-            
         else {
             DataTable.setContentOffset(CGPoint(x: 0, y: 115), animated: true)
         }
-        
         DataTable.allowsSelection = true
-        
-        measure(0)
+        measure()
     }
     
     // ---------------------------
@@ -570,9 +494,18 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // ---------------------------
     
+    // Can delete eventually if not sending any data to arduino
+    
     func sendData()
     {
+        // Example of sending data from phone to arduino
         let result = self.nrfManagerInstance.writeString("Hello, world!")
+        print("result: %@", result)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     /*
