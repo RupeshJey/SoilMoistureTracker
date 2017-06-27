@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7401F4FFC832A50F87FE5D3 /* Pods_SoilMoistureUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A96D7132333FBA4053D0792 /* Pods_SoilMoistureUITests.framework */; };
-		D7B64464D36A099D99A3033A /* Pods_SoilMoistureTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF6215602EAC10AA30CD398E /* Pods_SoilMoistureTests.framework */; };
+		821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */; };
 		F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */; };
 		F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */; };
 		F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8323C191EAFB0B2003531A6 /* NRFManager.swift */; };
@@ -27,9 +26,7 @@
 		F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */; };
 		F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */; };
 		F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */; };
-		F841CDDC1EA6858300EEDE25 /* water hose clear flow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */; };
 		F841CDDE1EA68B9900EEDE25 /* SensorGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */; };
-		F841CDE11EA691E900EEDE25 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */; };
 		F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEBE1E8D7BE900A0E66E /* DBManager.swift */; };
 		F898EEC41E94195100A0E66E /* NewRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC31E94195100A0E66E /* NewRecordViewController.swift */; };
 		F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */; };
@@ -52,7 +49,6 @@
 		F8FEA0771EC24FF000FBD739 /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */; };
 		F8FEA0791EC2510900FBD739 /* SitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA0781EC2510900FBD739 /* SitesViewController.swift */; };
 		F8FEA07B1EC2529E00FBD739 /* AddSiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */; };
-		FA9A566C82D9FE2A99467EA6 /* Pods_SoilMoisture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE93D2C92B91A727EA3CEAC0 /* Pods_SoilMoisture.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,14 +82,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3D49BEC2220DCF519F1CB80E /* Pods-SoilMoistureUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoistureUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoistureUITests/Pods-SoilMoistureUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		41FB39F7BC00293FD6935B48 /* Pods-SoilMoistureTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoistureTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoistureTests/Pods-SoilMoistureTests.release.xcconfig"; sourceTree = "<group>"; };
-		72F23464BDD0EB13F98B9901 /* Pods-SoilMoisture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoisture.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoisture/Pods-SoilMoisture.debug.xcconfig"; sourceTree = "<group>"; };
-		7A96D7132333FBA4053D0792 /* Pods_SoilMoistureUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoilMoistureUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		995293C38B320CACF124039C /* Pods-SoilMoistureUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoistureUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoistureUITests/Pods-SoilMoistureUITests.release.xcconfig"; sourceTree = "<group>"; };
-		9B0B54980E4433498AB9B746 /* Pods-SoilMoisture.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoisture.release.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoisture/Pods-SoilMoisture.release.xcconfig"; sourceTree = "<group>"; };
-		DF6215602EAC10AA30CD398E /* Pods_SoilMoistureTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoilMoistureTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE93D2C92B91A727EA3CEAC0 /* Pods_SoilMoisture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoilMoisture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sandbox-50@2x.png"; sourceTree = "<group>"; };
 		F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTableViewCell.swift; sourceTree = "<group>"; };
 		F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteSelectTableViewController.swift; sourceTree = "<group>"; };
 		F8323C191EAFB0B2003531A6 /* NRFManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRFManager.swift; sourceTree = "<group>"; };
@@ -118,9 +107,7 @@
 		F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Property-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bulleted List-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecordTableViewCell.swift; sourceTree = "<group>"; };
-		F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "water hose clear flow.jpg"; path = "../../../../Downloads/water hose clear flow.jpg"; sourceTree = "<group>"; };
 		F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorGetter.swift; sourceTree = "<group>"; };
-		F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sandbox-50@2x.png"; path = "../../../../Downloads/Sandbox-50@2x.png"; sourceTree = "<group>"; };
 		F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F898EEBE1E8D7BE900A0E66E /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		F898EEC31E94195100A0E66E /* NewRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordViewController.swift; sourceTree = "<group>"; };
@@ -144,7 +131,6 @@
 		F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = ../SiteTableViewCell.swift; sourceTree = "<group>"; };
 		F8FEA0781EC2510900FBD739 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
 		F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSiteViewController.swift; sourceTree = "<group>"; };
-		FC7AFFE8ED1133B1330B805D /* Pods-SoilMoistureTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoilMoistureTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoilMoistureTests/Pods-SoilMoistureTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA9A566C82D9FE2A99467EA6 /* Pods_SoilMoisture.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7B64464D36A099D99A3033A /* Pods_SoilMoistureTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,26 +152,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7401F4FFC832A50F87FE5D3 /* Pods_SoilMoistureUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C8AC74C97071823EE648BB72 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				72F23464BDD0EB13F98B9901 /* Pods-SoilMoisture.debug.xcconfig */,
-				9B0B54980E4433498AB9B746 /* Pods-SoilMoisture.release.xcconfig */,
-				FC7AFFE8ED1133B1330B805D /* Pods-SoilMoistureTests.debug.xcconfig */,
-				41FB39F7BC00293FD6935B48 /* Pods-SoilMoistureTests.release.xcconfig */,
-				3D49BEC2220DCF519F1CB80E /* Pods-SoilMoistureUITests.debug.xcconfig */,
-				995293C38B320CACF124039C /* Pods-SoilMoistureUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F836C0A31E7721E700647893 = {
 			isa = PBXGroup;
 			children = (
@@ -202,7 +172,6 @@
 				F836C0D01E7721E700647893 /* SoilMoistureUITests */,
 				F836C0AD1E7721E700647893 /* Products */,
 				F898EEBB1E8D7B9000A0E66E /* Frameworks */,
-				C8AC74C97071823EE648BB72 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -265,14 +234,13 @@
 			isa = PBXGroup;
 			children = (
 				F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */,
-				F841CDDB1EA6858300EEDE25 /* water hose clear flow.jpg */,
 				F8FB4E971E7727AD00F13DD7 /* Checklist-50@2x.png */,
 				F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */,
 				F83DD0501E7776EF003C03E7 /* Add Column-50.png */,
 				F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */,
 				F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */,
+				821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */,
 				F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */,
-				F841CDE01EA691E900EEDE25 /* Sandbox-50@2x.png */,
 				F8FB4E991E77284700F13DD7 /* Line Chart-50@2x.png */,
 			);
 			name = "Image Assets";
@@ -297,9 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */,
-				EE93D2C92B91A727EA3CEAC0 /* Pods_SoilMoisture.framework */,
-				DF6215602EAC10AA30CD398E /* Pods_SoilMoistureTests.framework */,
-				7A96D7132333FBA4053D0792 /* Pods_SoilMoistureUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,13 +276,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F836C0D61E7721E700647893 /* Build configuration list for PBXNativeTarget "SoilMoisture" */;
 			buildPhases = (
-				4442DA678F02C330D1D700D1 /* [CP] Check Pods Manifest.lock */,
 				F836C0A81E7721E700647893 /* Sources */,
 				F836C0A91E7721E700647893 /* Frameworks */,
 				F836C0AA1E7721E700647893 /* Resources */,
 				F801073D1ED5AC3600236DA2 /* Embed Frameworks */,
-				8BC06E1ABFCCC2C1BBB91E90 /* [CP] Embed Pods Frameworks */,
-				4716AFCBB20A0A245CF4F774 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -332,12 +294,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F836C0D91E7721E700647893 /* Build configuration list for PBXNativeTarget "SoilMoistureTests" */;
 			buildPhases = (
-				5F17903B064F73D9B6C341C9 /* [CP] Check Pods Manifest.lock */,
 				F836C0BE1E7721E700647893 /* Sources */,
 				F836C0BF1E7721E700647893 /* Frameworks */,
 				F836C0C01E7721E700647893 /* Resources */,
-				FFC05CCBA1C914B4A3BD8550 /* [CP] Embed Pods Frameworks */,
-				5A40068654B037E30F5DB7FE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -353,12 +312,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F836C0DC1E7721E700647893 /* Build configuration list for PBXNativeTarget "SoilMoistureUITests" */;
 			buildPhases = (
-				68234A5294A8CBCA0FE5B5B7 /* [CP] Check Pods Manifest.lock */,
 				F836C0C91E7721E700647893 /* Sources */,
 				F836C0CA1E7721E700647893 /* Frameworks */,
 				F836C0CB1E7721E700647893 /* Resources */,
-				85B4D93C40DB4EB71EF6B524 /* [CP] Embed Pods Frameworks */,
-				3C261B6C7EC62381C8D9D957 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -382,18 +338,18 @@
 				TargetAttributes = {
 					F836C0AB1E7721E700647893 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = F6JQDMVBV6;
+						DevelopmentTeam = S7EHLVWT8G;
 						ProvisioningStyle = Automatic;
 					};
 					F836C0C11E7721E700647893 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = F6JQDMVBV6;
+						DevelopmentTeam = S7EHLVWT8G;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F836C0AB1E7721E700647893;
 					};
 					F836C0CC1E7721E700647893 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = F6JQDMVBV6;
+						DevelopmentTeam = S7EHLVWT8G;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F836C0AB1E7721E700647893;
 					};
@@ -431,12 +387,11 @@
 				F836C0BC1E7721E700647893 /* LaunchScreen.storyboard in Resources */,
 				F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */,
 				F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */,
-				F841CDDC1EA6858300EEDE25 /* water hose clear flow.jpg in Resources */,
 				F836C0B91E7721E700647893 /* Assets.xcassets in Resources */,
 				F836C0B71E7721E700647893 /* Main.storyboard in Resources */,
-				F841CDE11EA691E900EEDE25 /* Sandbox-50@2x.png in Resources */,
 				F8FEA0711EC22F5000FBD739 /* Screenshot-50.png in Resources */,
 				F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */,
+				821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,144 +410,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3C261B6C7EC62381C8D9D957 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoistureUITests/Pods-SoilMoistureUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4442DA678F02C330D1D700D1 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4716AFCBB20A0A245CF4F774 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoisture/Pods-SoilMoisture-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5A40068654B037E30F5DB7FE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoistureTests/Pods-SoilMoistureTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5F17903B064F73D9B6C341C9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		68234A5294A8CBCA0FE5B5B7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		85B4D93C40DB4EB71EF6B524 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoistureUITests/Pods-SoilMoistureUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8BC06E1ABFCCC2C1BBB91E90 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoisture/Pods-SoilMoisture-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FFC05CCBA1C914B4A3BD8550 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SoilMoistureTests/Pods-SoilMoistureTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F836C0A81E7721E700647893 /* Sources */ = {
@@ -776,11 +593,10 @@
 		};
 		F836C0D71E7721E700647893 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72F23464BDD0EB13F98B9901 /* Pods-SoilMoisture.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoisture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
@@ -791,11 +607,10 @@
 		};
 		F836C0D81E7721E700647893 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B0B54980E4433498AB9B746 /* Pods-SoilMoisture.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoisture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoisture;
@@ -806,11 +621,10 @@
 		};
 		F836C0DA1E7721E700647893 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC7AFFE8ED1133B1330B805D /* Pods-SoilMoistureTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoistureTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoistureTests;
@@ -822,11 +636,10 @@
 		};
 		F836C0DB1E7721E700647893 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41FB39F7BC00293FD6935B48 /* Pods-SoilMoistureTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoistureTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoistureTests;
@@ -838,10 +651,9 @@
 		};
 		F836C0DD1E7721E700647893 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D49BEC2220DCF519F1CB80E /* Pods-SoilMoistureUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoistureUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoistureUITests;
@@ -853,10 +665,9 @@
 		};
 		F836C0DE1E7721E700647893 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 995293C38B320CACF124039C /* Pods-SoilMoistureUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = F6JQDMVBV6;
+				DEVELOPMENT_TEAM = S7EHLVWT8G;
 				INFOPLIST_FILE = SoilMoistureUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.planletsystems.SoilMoistureUITests;

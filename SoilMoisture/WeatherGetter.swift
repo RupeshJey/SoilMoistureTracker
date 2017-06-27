@@ -42,8 +42,6 @@ class WeatherGetter {
                 // Case 2: Success
                 // We got a response from the server!
                 print("Data:\n\(data!)")
-                let dataString = String(data: data!, encoding:.utf8)
-                //print(dataString)
                 
                 do {
                     // Try to convert that data into a Swift dictionary
@@ -54,7 +52,7 @@ class WeatherGetter {
                     // Let's now used that dictionary to initialize a Weather struct.
                     //let weather = Weather(weatherData: weatherData)
                     
-                    let weatherDict = weatherData["weather"]![0] as! [String: AnyObject]
+                    //let weatherDict = weatherData["weather"]![0] as! [String: AnyObject]
                     let mainDict = weatherData["main"] as! [String: AnyObject]
                     var temp = mainDict["temp"] as! Double
                     temp = (temp - 273.15) * 1.8 + 32
@@ -66,7 +64,7 @@ class WeatherGetter {
                 }
                 catch let jsonError as NSError {
                     // An error occurred while trying to convert the data into a Swift dictionary.
-                    //self.delegate.didNotGetWeather(jsonError)
+                    self.delegate.didNotGetWeather(error: jsonError)
                 }
             }
         }
@@ -97,8 +95,8 @@ class WeatherGetter {
                 // Case 2: Success
                 // We got a response from the server!
                 //print("Data:\n\(data!)")
-                let dataString = String(data: data!, encoding:.utf8)
-                print(dataString)
+                //let dataString = String(data: data!, encoding:.utf8)
+                //print(dataString)
                 
                 do {
                     // Try to convert that data into a Swift dictionary
@@ -109,7 +107,7 @@ class WeatherGetter {
                     // Let's now used that dictionary to initialize a Weather struct.
                     // let weather = Weather(weatherData: weatherData)
                     
-                    let weatherDict = weatherData["weather"]![0] as! [String: AnyObject]
+                    //let weatherDict = weatherData["weather"]![0] as! [String: AnyObject]
                     let mainDict = weatherData["main"] as! [String: AnyObject]
                     temp = mainDict["temp"] as! Double
                     temp = (temp - 273.15) * 1.8 + 32
@@ -127,7 +125,7 @@ class WeatherGetter {
                 }
                 catch let jsonError as NSError {
                     // An error occurred while trying to convert the data into a Swift dictionary.
-                    //self.delegate.didNotGetWeather(jsonError)
+                    self.delegate.didNotGetWeather(error: jsonError)
                 }
             }
         }
