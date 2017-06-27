@@ -79,9 +79,6 @@ open class NRFManager:NSObject, CBCentralManagerDelegate, UARTPeripheralDelegate
         return (currentPeripheral?.peripheral.name)!
     }
     
-    
-    
-
     open class var sharedInstance : NRFManager {
         struct Static {
             static let instance : NRFManager = NRFManager()

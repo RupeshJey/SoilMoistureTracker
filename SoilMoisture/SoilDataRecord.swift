@@ -10,38 +10,35 @@ import Foundation
 
 class SoilDataRecord: NSObject, NSCoding {
     
-    // UserMetadata Class Variables
+    // SoilDataRecord Class Variables
+    var userID = "",
+        OS = "",
+        siteName = "",
+        date:Date,
+        moisture = ""
     
-    var userID = ""
-    var OS = ""
-    
-    var siteName = ""
-    var date:Date
-    var moisture = ""
-    
+    // Blank initialization
     override init() {
-        
         self.date = Date.init()
     }
     
+    // Initialization with parameter
     init(recordSiteName: String, recordDate: Date, recordMoisture: String) {
         self.siteName = recordSiteName
         self.date = recordDate
         self.moisture = recordMoisture
     }
     
+    // Decode everything
     required convenience init(coder decoder: NSCoder) {
-        // Decode everything
-        
         self.init()
-        
         self.siteName = decoder.decodeObject(forKey: "name") as! String
         self.date = decoder.decodeObject(forKey: "date") as! Date
         self.moisture = decoder.decodeObject(forKey: "moisture") as! String
     }
     
+    // Encode everything
     func encode(with coder: NSCoder) {
-        // Encode everything
         coder.encode(self.siteName, forKey: "name")
         coder.encode(self.date, forKey: "date")
         coder.encode(self.moisture, forKey: "moisture")

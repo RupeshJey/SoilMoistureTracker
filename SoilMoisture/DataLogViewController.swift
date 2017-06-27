@@ -9,74 +9,41 @@
 import UIKit
 
 class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    // Storyboard Objects
     
-    @IBOutlet weak var soilRecord: UITableView!
+    @IBOutlet weak var soilRecord: UITableView! // Table of records
     
-    let recordsID = "recordsID"
-    
-    var recordsArray:[Any]?
+    let recordsID = "recordsID" // Constant to get records from save
+    var recordsArray:[Any]?     // Records array
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // Make sure array is not nil
         if (UserDefaults.standard.array(forKey: recordsID) == nil) {
             UserDefaults.standard.set([], forKey: recordsID)
         }
         
+        // Load records into array
         recordsArray = UserDefaults.standard.array(forKey: recordsID)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        recordsArray = UserDefaults.standard.array(forKey: recordsID)
-        
-        self.soilRecord.reloadData()
-    }
-
-    @IBAction func addSoilRecord(_ sender: Any) {
-        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddSoilRecordViewController")
-        nextVC.modalTransitionStyle = .coverVertical
-        self.present(nextVC, animated: true, completion: nil)
-    }
-    
     
     // Mark: Table View
     
+    // One section
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
         return 1
     }
     
+    // Number of rows as number of records
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
-        //homeworkIDArray = NSMutableArray(array: homeworkDict.allKeys)
-        
         return (recordsArray?.count)!
     }
     
+    // Configure each cell with the properties of each record
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //NSLog("ADD ONE!")
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "SoilRecordTableViewCell", for: indexPath) as! SoilRecordTableViewCell
-        
-        /*switch indexPath.row {
-        case 0:
-            cell.textField.placeholder = "Username"
-        case 1:
-            cell.textField.placeholder = "Password"
-            cell.textField.isSecureTextEntry = true
-        default:
-            cell.textField.placeholder = "Password"
-            cell.textField.isSecureTextEntry = true
-        }*/
         
         let soilRecordData = NSKeyedUnarchiver.unarchiveObject(with: recordsArray![indexPath.row] as! Data) as! SoilDataRecord
         
@@ -87,22 +54,14 @@ class DataLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.moistureLabel.text = soilRecordData.moisture
         cell.siteNameLabel.text = soilRecordData.siteName
         
-        
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        NSLog("Pushed!")
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
     // MARK: - Navigation
 

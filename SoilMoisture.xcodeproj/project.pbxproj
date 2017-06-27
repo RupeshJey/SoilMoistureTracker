@@ -26,9 +26,6 @@
 		F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */; };
 		F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */; };
 		F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */; };
-		F841CDDE1EA68B9900EEDE25 /* SensorGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */; };
-		F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEBE1E8D7BE900A0E66E /* DBManager.swift */; };
-		F898EEC41E94195100A0E66E /* NewRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC31E94195100A0E66E /* NewRecordViewController.swift */; };
 		F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */; };
 		F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */; };
 		F8BC8D241EB8F01300064318 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BC8D231EB8F01300064318 /* Site.swift */; };
@@ -107,10 +104,7 @@
 		F83DD0511E7776EF003C03E7 /* Add Property-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Property-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0541E777888003C03E7 /* Bulleted List-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bulleted List-50@2x.png"; sourceTree = "<group>"; };
 		F83DD0561E777F7C003C03E7 /* AddRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecordTableViewCell.swift; sourceTree = "<group>"; };
-		F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorGetter.swift; sourceTree = "<group>"; };
 		F898EEBC1E8D7B9100A0E66E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		F898EEBE1E8D7BE900A0E66E /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		F898EEC31E94195100A0E66E /* NewRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordViewController.swift; sourceTree = "<group>"; };
 		F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordTableViewCell.swift; sourceTree = "<group>"; };
 		F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoilTypeTableViewController.swift; path = ../SoilTypeTableViewController.swift; sourceTree = "<group>"; };
 		F8BC8D231EB8F01300064318 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
@@ -162,9 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				F8DE3AF11E9D492100C9749D /* Weather.swift */,
-				F898EEBE1E8D7BE900A0E66E /* DBManager.swift */,
 				F8323C191EAFB0B2003531A6 /* NRFManager.swift */,
-				F841CDDD1EA68B9900EEDE25 /* SensorGetter.swift */,
 				F8323C1B1EAFFCF2003531A6 /* Soil.swift */,
 				F8BC8D231EB8F01300064318 /* Site.swift */,
 				F836C0AE1E7721E700647893 /* SoilMoisture */,
@@ -201,7 +193,6 @@
 				F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */,
 				F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */,
 				F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */,
-				F898EEC31E94195100A0E66E /* NewRecordViewController.swift */,
 				F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */,
 				F83DD04B1E774A18003C03E7 /* TableViewCells */,
 				F836C0B81E7721E700647893 /* Assets.xcassets */,
@@ -423,19 +414,16 @@
 				F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */,
 				F8FEA0751EC2418900FBD739 /* ImageRecordTableViewCell.swift in Sources */,
 				F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */,
-				F898EEBF1E8D7BE900A0E66E /* DBManager.swift in Sources */,
 				F8323C1C1EAFFCF2003531A6 /* Soil.swift in Sources */,
 				F8BC8D241EB8F01300064318 /* Site.swift in Sources */,
 				F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */,
 				F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */,
-				F898EEC41E94195100A0E66E /* NewRecordViewController.swift in Sources */,
 				F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */,
 				F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */,
 				F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */,
 				F8FEA07B1EC2529E00FBD739 /* AddSiteViewController.swift in Sources */,
 				F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */,
 				F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */,
-				F841CDDE1EA68B9900EEDE25 /* SensorGetter.swift in Sources */,
 				F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */,
 				F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */,
 				F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */,

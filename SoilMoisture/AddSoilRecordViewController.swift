@@ -264,7 +264,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.mapView.addAnnotation(newPin)
                 cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 216)
                 cell.mapView.layer.cornerRadius = 20.0
-                //cell.mapView.layer.clipsToBounds = true
+                
                 return cell
                 
             case 2:
@@ -391,10 +391,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 }
             
             default:
-                print("s")
+                print("")
             }
         default:
-            print("H")
+            print("")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

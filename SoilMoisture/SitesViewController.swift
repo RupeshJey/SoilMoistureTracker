@@ -10,31 +10,23 @@ import UIKit
 
 class SitesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let sitesID = "sitesList"
-    var sitesArray:[Any]?
+    @IBOutlet weak var sitesTableView: UITableView! // Table to display sites
     
-    @IBOutlet weak var sitesTableView: UITableView!
+    let sitesID = "sitesList"                       // Constant to retrieve sites
+    var sitesArray:[Any]?                           // Array of sites
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
-        if (UserDefaults.standard.array(forKey: sitesID) == nil) {
-            UserDefaults.standard.set([], forKey: sitesID)
-        }
-        
+        // Load sites from saved data
         sitesArray = UserDefaults.standard.array(forKey: sitesID)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        // Reload table when user reappears after adding a site
+        
         sitesArray = UserDefaults.standard.array(forKey: sitesID)
-        //print("count: ", sitesArray?.count)
         sitesTableView.reloadData()
         UIView.transition(with: self.view,
                                   duration: 0.15,
@@ -43,6 +35,8 @@ class SitesViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                     self.sitesTableView.reloadRows(at: self.sitesTableView.indexPathsForVisibleRows!, with: .none)
         }, completion: nil)
     }
+    
+    // Bring up controller to add site
     
     @IBAction func AddSite(_ sender: Any) {
         
@@ -58,18 +52,17 @@ class SitesViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // ---------------------------
     
+    // Only one section
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        
         return 1
     }
     
+    // Number of rows as number of sites
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
         return (sitesArray?.count)!
     }
     
+    // Fill in parameters for each site
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "SiteTableViewCell", for: indexPath) as! SiteTableViewCell
@@ -80,23 +73,21 @@ class SitesViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.siteDescription.text = siteData.siteDescription
         cell.siteSoilType.text = siteData.soilTypeString
         print("name: ", siteData.siteName)
+        cell.selectionStyle = .none
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-    }
-    
+    // Enable editing
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    // Handle a deletion event
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            // handle delete (by removing the data from your array and updating the tableview)
+            
+            // Remove the data from array and update tableview
             
             sitesArray?.remove(at: indexPath.row)
             UserDefaults.standard.set(sitesArray, forKey: sitesID)
@@ -109,14 +100,9 @@ class SitesViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    */
 
 }

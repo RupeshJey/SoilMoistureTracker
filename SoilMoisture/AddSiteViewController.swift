@@ -10,61 +10,51 @@ import UIKit
 
 class AddSiteViewController: UITableViewController, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
+    // Connections to storyboard
+    @IBOutlet weak var  soilTypeLabel: UILabel!,        // Type of site
+                        siteImage: UIImageView!,        // Image of site
+                        nameField: UITextField!,        // Name of site
+                        descriptionField: UITextField!  // Description of site
     
+    let sitesID = "sitesList"   // Constant to retrieve sites
     
-    let sitesID = "sitesList"
-        
-        //
-    
-    //@IBOutlet weak var soilTypePicker: UIPickerView!
-    
-    @IBOutlet weak var soilTypeLabel: UILabel!
-    
-    
-    @IBOutlet weak var siteImage: UIImageView!
-    
-    @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var descriptionField: UITextField!
-    
-    
-    
-    var image:UIImage?
-    
-    var site:Site?
-    
-    var soil:Soil?
-    var soilType = ""
+    // Variables
+    var image:UIImage?, // Image variable
+        site:Site?,     // Site type
+        soil:Soil?,     // Soil object
+        soilType = ""   // Soil type string
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // Set image to default photo
         image = #imageLiteral(resourceName: "Sandbox-50.png")
+        
+        // Size image view
         siteImage.frame = CGRect.init(x: 310, y: 40, width: 35, height: 35)
         siteImage.image = image
         
+        // Temporary soil setting
         if (UserDefaults.standard.string(forKey: "tempSoilType") == nil) {UserDefaults.standard.set("", forKey: "tempSoilType")}
         
+        // Default soil type
         soilType = UserDefaults.standard.string(forKey: "tempSoilType")!
         
+        // Initialize soil
         soil = Soil.init()
-        
-        print(soil!.soilType)
     }
 
+    // Update soil type text after returning to screen
     override func viewWillAppear(_ animated: Bool) {
-        //soilTypeLabel.text = soilType
-        //print("Text: ", soilTypeLabel.text)
-        
         soilTypeLabel.text = UserDefaults.standard.string(forKey: "tempSoilType")
     }
     
+    // Dismiss controller
     @IBAction func cancel(_ sender: Any) {
-        
         self.dismiss(animated: true, completion: nil)
     }
     
+    // Save site
     @IBAction func save(_ sender: Any) {
         
         if (nameField.text == nil) {nameField.text = ""}
@@ -81,22 +71,12 @@ class AddSiteViewController: UITableViewController, UIPickerViewDelegate, UIImag
         self.dismiss(animated: true, completion: nil)
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    /*func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return soilTypes.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return soilTypes[row]
-    }*/
-    
+    // Trigger table selections
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        // Image picker
         if (indexPath.row == 2) {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 
@@ -110,6 +90,7 @@ class AddSiteViewController: UITableViewController, UIPickerViewDelegate, UIImag
             }
         }
         
+        // Soil selector
         if (indexPath.row == 3) {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SoilTypeTableViewController") as! SoilTypeTableViewController
             vc.selectedString = soilTypeLabel.text
@@ -117,18 +98,17 @@ class AddSiteViewController: UITableViewController, UIPickerViewDelegate, UIImag
         }
     }
     
+    // Set image after selecting
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        NSLog("\(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
             siteImage.frame = CGRect.init(x: 274, y: 8, width: 84, height: 112)
             siteImage.image = image
             dismiss(animated: true, completion: nil)
         }
-        
     }
     
+    // Return button resigns keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

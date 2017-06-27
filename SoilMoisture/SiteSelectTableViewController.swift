@@ -10,25 +10,22 @@ import UIKit
 
 class SiteSelectTableViewController: UITableViewController {
 
-    let sitesID = "sitesList"
-    var sitesArray:[Any]?
+    let sitesID = "sitesList"   // Constant to retrieve sites
+    var sitesArray:[Any]?       // Sites array
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Make sure array is not nil
         if (UserDefaults.standard.array(forKey: sitesID) == nil) {
             UserDefaults.standard.set([], forKey: sitesID)
         }
         
+        // Load sites from save
         sitesArray = UserDefaults.standard.array(forKey: sitesID)
         
+        // Set row heights
         self.tableView.rowHeight = 135
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,23 +33,24 @@ class SiteSelectTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Cancel
     @IBAction func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Table view data source
 
+    // One section
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
+    // Number of rows as number of sites
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return (sitesArray?.count)!
     }
 
-    
+    // Return cell with site properties
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SiteTableViewCell", for: indexPath) as! SiteTableViewCell
@@ -62,53 +60,18 @@ class SiteSelectTableViewController: UITableViewController {
         cell.siteImage.image = siteData.siteImage
         cell.siteDescription.text = siteData.siteDescription
         cell.siteSoilType.text = siteData.soilTypeString
-        print("name: ", siteData.siteName)
         
         return cell
     }
     
+    // Set site upon selection and return
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let siteData = NSKeyedUnarchiver.unarchiveObject(with: sitesArray![indexPath.row] as! Data) as! Site
         UserDefaults.standard.set(siteData.siteName, forKey: "tempSiteName")
         self.dismiss(animated: true, completion: nil)
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+    
     /*
     // MARK: - Navigation
 

@@ -25,7 +25,6 @@ class Soil:NSObject, NSCoding {
         case loamySand
         case sand
         case none
-        //static var count: Int { return Test.FOUR.hashValue + 1}
     }
     
     var soilType = type.none
