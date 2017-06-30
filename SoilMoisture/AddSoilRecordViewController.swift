@@ -127,7 +127,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
-                    self.temperature = "20℃"
+                    //self.temperature = "20℃"
                     
                     if (Double(self.resistance) != nil) {
                         var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
@@ -137,6 +137,31 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                         self.moisture = String(moistureValue)
                         self.moisture.append(" %")
                     }
+                }
+                
+                else if string!.contains("T: ") {
+                    self.temperature = string!.substring(from: indexStartOfText)
+                    
+                    if (Double(self.temperature) != nil) {
+                        var moistureValue = 2374.3 * pow(Double(self.resistance)! , -0.598)
+                        
+                        moistureValue = Double(round(1000*moistureValue)/1000)
+                        
+                        self.moisture = String(moistureValue)
+                        self.moisture.append(" %")
+                    }
+                    
+                    /*self.resistance = string!.substring(from: indexStartOfText)
+                    self.temperature = "20℃"
+                    
+                    if (Double(self.resistance) != nil) {
+                        var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
+                        
+                        moistureValue = Double(round(1000*moistureValue)/1000)
+                        
+                        self.moisture = String(moistureValue)
+                        self.moisture.append(" %")
+                    }*/
                 }
                 
                 if (self.shouldRefreshSensor) {

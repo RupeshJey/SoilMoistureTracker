@@ -251,13 +251,6 @@ extension NRFManager {
                 connect("")
             }
         }
-    
-    
-    
-        //optional func centralManager(central: CBCentralManager!, willRestoreState dict: [NSObject : AnyObject]!)
-        //optional func centralManager(central: CBCentralManager!, didRetrievePeripherals peripherals: [AnyObject]!)
-        //optional func centralManager(central: CBCentralManager!, didRetrieveConnectedPeripherals peripherals: [AnyObject]!)
-        //optional func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!)
 }
 
 // MARK: - UARTPeripheralDelegate Methods
@@ -289,7 +282,6 @@ extension NRFManager {
     }
     
 }
-
 
 // MARK: NRFManagerDelegate Definition
 @objc public protocol NRFManagerDelegate {
