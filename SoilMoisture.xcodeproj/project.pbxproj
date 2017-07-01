@@ -10,6 +10,7 @@
 		821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */; };
 		F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */; };
 		F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */; };
+		F80F5A381F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */; };
 		F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8323C191EAFB0B2003531A6 /* NRFManager.swift */; };
 		F8323C1C1EAFFCF2003531A6 /* Soil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8323C1B1EAFFCF2003531A6 /* Soil.swift */; };
 		F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F836C0AF1E7721E700647893 /* AppDelegate.swift */; };
@@ -31,6 +32,10 @@
 		F8BC8D241EB8F01300064318 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BC8D231EB8F01300064318 /* Site.swift */; };
 		F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */; };
 		F8DE3AF21E9D492100C9749D /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE3AF11E9D492100C9749D /* Weather.swift */; };
+		F8F8B0B81F06B61B000086F1 /* SensorReadingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F8B0B71F06B61B000086F1 /* SensorReadingsCell.swift */; };
+		F8F8B0C01F06C489000086F1 /* Resistor.png in Resources */ = {isa = PBXBuildFile; fileRef = F8F8B0BF1F06C489000086F1 /* Resistor.png */; };
+		F8F8B0C21F06C771000086F1 /* Thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = F8F8B0C11F06C771000086F1 /* Thermometer.png */; };
+		F8F8B0C41F06C9DC000086F1 /* Wave.png in Resources */ = {isa = PBXBuildFile; fileRef = F8F8B0C31F06C9DC000086F1 /* Wave.png */; };
 		F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */; };
 		F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */; };
 		F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */; };
@@ -82,6 +87,7 @@
 		821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sandbox-50@2x.png"; sourceTree = "<group>"; };
 		F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTableViewCell.swift; sourceTree = "<group>"; };
 		F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteSelectTableViewController.swift; sourceTree = "<group>"; };
+		F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2017-06-30 at 8.39.38 AM.png"; sourceTree = "<group>"; };
 		F8323C191EAFB0B2003531A6 /* NRFManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRFManager.swift; sourceTree = "<group>"; };
 		F8323C1B1EAFFCF2003531A6 /* Soil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Soil.swift; sourceTree = "<group>"; };
 		F836C0AC1E7721E700647893 /* SoilMoisture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoilMoisture.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +116,10 @@
 		F8BC8D231EB8F01300064318 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherGetter.swift; sourceTree = "<group>"; };
 		F8DE3AF11E9D492100C9749D /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		F8F8B0B71F06B61B000086F1 /* SensorReadingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorReadingsCell.swift; sourceTree = "<group>"; };
+		F8F8B0BF1F06C489000086F1 /* Resistor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resistor.png; sourceTree = "<group>"; };
+		F8F8B0C11F06C771000086F1 /* Thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thermometer.png; sourceTree = "<group>"; };
+		F8F8B0C31F06C9DC000086F1 /* Wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wave.png; sourceTree = "<group>"; };
 		F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLogViewController.swift; sourceTree = "<group>"; };
 		F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +234,10 @@
 		F836C0E11E77232C00647893 /* Image Assets */ = {
 			isa = PBXGroup;
 			children = (
+				F8F8B0C31F06C9DC000086F1 /* Wave.png */,
+				F8F8B0C11F06C771000086F1 /* Thermometer.png */,
+				F8F8B0BF1F06C489000086F1 /* Resistor.png */,
+				F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */,
 				F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */,
 				F8FB4E971E7727AD00F13DD7 /* Checklist-50@2x.png */,
 				F836C0DF1E77232800647893 /* logo_nasa_trio_black@2x.png */,
@@ -240,6 +254,7 @@
 		F83DD04B1E774A18003C03E7 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				F8F8B0B71F06B61B000086F1 /* SensorReadingsCell.swift */,
 				F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */,
 				F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */,
 				F8FEA0721EC23E7800FBD739 /* NoteRecordTableViewCell.swift */,
@@ -379,9 +394,13 @@
 				F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */,
 				F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */,
 				F836C0B91E7721E700647893 /* Assets.xcassets in Resources */,
+				F8F8B0C01F06C489000086F1 /* Resistor.png in Resources */,
+				F80F5A381F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png in Resources */,
+				F8F8B0C21F06C771000086F1 /* Thermometer.png in Resources */,
 				F836C0B71E7721E700647893 /* Main.storyboard in Resources */,
 				F8FEA0711EC22F5000FBD739 /* Screenshot-50.png in Resources */,
 				F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */,
+				F8F8B0C41F06C9DC000086F1 /* Wave.png in Resources */,
 				821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +428,7 @@
 			files = (
 				F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */,
 				F8DE3AF21E9D492100C9749D /* Weather.swift in Sources */,
+				F8F8B0B81F06B61B000086F1 /* SensorReadingsCell.swift in Sources */,
 				F8FEA0731EC23E7800FBD739 /* NoteRecordTableViewCell.swift in Sources */,
 				F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */,
 				F8323C1A1EAFB0B2003531A6 /* NRFManager.swift in Sources */,

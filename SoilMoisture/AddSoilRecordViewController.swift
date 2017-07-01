@@ -18,6 +18,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         userMetadataID = "userMetadata",    // Constant
         recordsID = "recordsID"             // Constant
     
+    
     var invalid:String = "-------",         // Default invalid value for all strings
         date:String = "",                   // Date
         resistance:String = "",             // Sensor-measured resistance
@@ -34,8 +35,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         nrfManagerInstance:NRFManager!,     // Connector to Arduino
         recordsArray:[Any]?                 // Array of records
     
-    @IBOutlet weak var Save: UIButton!          // Save Button
+    //@IBOutlet weak var Save: UIButton!          // Save Button
     @IBOutlet weak var DataTable: UITableView!  // Data Table
+    @IBOutlet weak var template: UIImageView!
     
     // END VARIABLES
     
@@ -54,6 +56,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         // Temporarily set temporary site string
         UserDefaults.standard.set(siteString, forKey: "tempSiteName")
+        
+        template.alpha = 0.15
+        
     }
 
     // View did appear
@@ -91,7 +96,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // Helper function to tell whether app has been opened before
     func hasOpenedBefore() -> Bool {
-        return UserDefaults.standard.bool(forKey: openedKeyID)
+        return true//UserDefaults.standard.bool(forKey: openedKeyID)
     }
     
     // This function handles data collection from the sensor and error handling
@@ -127,29 +132,29 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
-                    //self.temperature = "20℃"
                     
                     if (Double(self.resistance) != nil) {
                         var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
                         
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
-                        self.moisture = String(moistureValue)
-                        self.moisture.append(" %")
+                        self.moisture = String(format: "%0.1f",moistureValue)
+                        self.moisture.append("%")
                     }
                 }
                 
                 else if string!.contains("T: ") {
-                    self.temperature = string!.substring(from: indexStartOfText)
-                    
-                    if (Double(self.temperature) != nil) {
+                    let shortenedDouble = string!.substring(from: indexStartOfText)
+                    self.temperature =  String(format: "%0.1f",shortenedDouble)
+                    //print(self.temperature)
+                    /*if (Double(self.temperature) != nil) {
                         var moistureValue = 2374.3 * pow(Double(self.resistance)! , -0.598)
                         
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
                         self.moisture = String(moistureValue)
                         self.moisture.append(" %")
-                    }
+                    }*/
                     
                     /*self.resistance = string!.substring(from: indexStartOfText)
                     self.temperature = "20℃"
@@ -203,22 +208,24 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        /*tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         // 3 if the table is to be loaded with sensor data
         if (hasOpenedBefore()) {
             return 3
-        }
+        }*/
         
         // 0 if metadata is to be collected first
-        return 0
+        return 1
     }
     
     // Set the number of rows in each section
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
+        return 3
+        
+        /*switch section {
         case 0:
             return 4
         case 1:
@@ -227,7 +234,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             return 4
         default:
             return 0
-        }
+        }*/
     }
     
     // Set the cell for each row
@@ -236,7 +243,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         // Switch depending on row
         
-        switch indexPath.section {
+        /*switch indexPath.section {
         case 0:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
@@ -379,15 +386,65 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
         default:
             print("")
-        }
+        }*/
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
-        return cell
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewHeader", for: indexPath)
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 44)
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SensorReadingCell", for: indexPath) as! SensorReadingsCell
+            
+            // Soil Moisture
+            
+            cell.moistureLabel.text = moisture
+            
+            // Resistance
+            
+            if (resistance != invalid && resistance != " INF" && resistance != "") {
+                let shortenedDouble = Double(resistance)!/1000
+                cell.resistanceLabel.text = "\(String(format: "%0.1f",shortenedDouble)) kΩ"
+                
+            }
+            else if resistance == " INF" {
+                cell.resistanceLabel.text = "INF kΩ"
+            }
+            
+            else {
+                cell.resistanceLabel.text = invalid
+            }
+            
+            // Temperature
+            
+            NSLog(temperature)
+            cell.temperatureLabel.text = temperature //"\(String(format: "%0.1f", temperature))°"
+            
+            // Date
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEEE, MMMM d"
+            cell.dateLabel.text = formatter.string(from: Date())
+            formatter.dateFormat = "h:mm a"
+            cell.timeLabel.text = formatter.string(from: Date())
+            
+            
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 355)
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "observationsHeader", for: indexPath)
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 44)
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SensorReadingCell", for: indexPath)
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 355)
+            return cell
+        }
     }
     
     // Handle tableview selections
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    /*func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // Switch depending on row
         
@@ -423,15 +480,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
-    }
+    }*/
     
     // Edit the name of the title in each section
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section {
         case 0:
-            return "Sensor Data"
+            return "Sensor Readings: "
         case 1:
             return "App Collected Data"
         case 2:
@@ -439,19 +496,30 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         default:
             return ""
         }
+    }*/
+    
+    /*func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        return tableView.dequeueReusableCell(withIdentifier: "tableViewHeader")
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+    {
+        return 44
+    }
+    */
     
     // Set height for each row
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.section == 2 && indexPath.row == 2 && imageBool == true) {
-            return 128;
-        }
-        else if (indexPath.section == 1 && indexPath.row == 1) {
-            return 216;
-        }
-        else {
-            return 44;
+        
+        switch indexPath.row {
+        case 0:
+            return 44
+        case 1:
+            return 355
+        default:
+            return 44
         }
     }
     
