@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8214E36D1F0854DE00964930 /* ObservationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214E36C1F0854DE00964930 /* ObservationsTableViewCell.swift */; };
+		8216A7471F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png in Resources */ = {isa = PBXBuildFile; fileRef = 8216A7461F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png */; };
 		821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */; };
+		8283FDBE1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDBD1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png */; };
+		8283FDC01F085F2C00F1508A /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDBF1F085F2C00F1508A /* Arrow.png */; };
+		8283FDC21F08629C00F1508A /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDC11F08629C00F1508A /* Camera.png */; };
+		8283FDC41F086B0200F1508A /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283FDC31F086B0200F1508A /* MapTableViewCell.swift */; };
 		F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */; };
 		F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */; };
 		F80F5A381F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */; };
@@ -84,7 +90,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8214E36C1F0854DE00964930 /* ObservationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObservationsTableViewCell.swift; path = ../ObservationsTableViewCell.swift; sourceTree = "<group>"; };
+		8216A7461F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluetooth-symbol-silhouette_318-38721.png"; sourceTree = "<group>"; };
 		821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sandbox-50@2x.png"; sourceTree = "<group>"; };
+		8283FDBD1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2017-07-01 at 3.45.56 PM.png"; sourceTree = "<group>"; };
+		8283FDBF1F085F2C00F1508A /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		8283FDC11F08629C00F1508A /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
+		8283FDC31F086B0200F1508A /* MapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
 		F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTableViewCell.swift; sourceTree = "<group>"; };
 		F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteSelectTableViewController.swift; sourceTree = "<group>"; };
 		F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2017-06-30 at 8.39.38 AM.png"; sourceTree = "<group>"; };
@@ -234,6 +246,10 @@
 		F836C0E11E77232C00647893 /* Image Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8216A7461F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png */,
+				8283FDC11F08629C00F1508A /* Camera.png */,
+				8283FDBF1F085F2C00F1508A /* Arrow.png */,
+				8283FDBD1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png */,
 				F8F8B0C31F06C9DC000086F1 /* Wave.png */,
 				F8F8B0C11F06C771000086F1 /* Thermometer.png */,
 				F8F8B0BF1F06C489000086F1 /* Resistor.png */,
@@ -254,6 +270,8 @@
 		F83DD04B1E774A18003C03E7 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				8214E36C1F0854DE00964930 /* ObservationsTableViewCell.swift */,
+				8283FDC31F086B0200F1508A /* MapTableViewCell.swift */,
 				F8F8B0B71F06B61B000086F1 /* SensorReadingsCell.swift */,
 				F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */,
 				F8FEA0761EC24FEF00FBD739 /* SiteTableViewCell.swift */,
@@ -394,12 +412,16 @@
 				F83DD0521E7776EF003C03E7 /* Add Column-50.png in Resources */,
 				F83DD0551E777888003C03E7 /* Bulleted List-50@2x.png in Resources */,
 				F836C0B91E7721E700647893 /* Assets.xcassets in Resources */,
+				8283FDBE1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png in Resources */,
 				F8F8B0C01F06C489000086F1 /* Resistor.png in Resources */,
 				F80F5A381F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png in Resources */,
+				8283FDC01F085F2C00F1508A /* Arrow.png in Resources */,
 				F8F8B0C21F06C771000086F1 /* Thermometer.png in Resources */,
 				F836C0B71E7721E700647893 /* Main.storyboard in Resources */,
 				F8FEA0711EC22F5000FBD739 /* Screenshot-50.png in Resources */,
+				8283FDC21F08629C00F1508A /* Camera.png in Resources */,
 				F83DD0531E7776EF003C03E7 /* Add Property-50@2x.png in Resources */,
+				8216A7471F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png in Resources */,
 				F8F8B0C41F06C9DC000086F1 /* Wave.png in Resources */,
 				821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */,
 			);
@@ -436,6 +458,7 @@
 				F83DD0571E777F7C003C03E7 /* AddRecordTableViewCell.swift in Sources */,
 				F8323C1C1EAFFCF2003531A6 /* Soil.swift in Sources */,
 				F8BC8D241EB8F01300064318 /* Site.swift in Sources */,
+				8283FDC41F086B0200F1508A /* MapTableViewCell.swift in Sources */,
 				F8FB4EA01E773A5900F13DD7 /* SoilDataRecord.swift in Sources */,
 				F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */,
 				F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */,
@@ -447,6 +470,7 @@
 				F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */,
 				F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */,
 				F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */,
+				8214E36D1F0854DE00964930 /* ObservationsTableViewCell.swift in Sources */,
 				F8FEA0791EC2510900FBD739 /* SitesViewController.swift in Sources */,
 				F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */,
 				F83DD04F1E776DCC003C03E7 /* AddSoilRecordViewController.swift in Sources */,

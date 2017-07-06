@@ -10,14 +10,15 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate {
+import CoreBluetooth
+
+class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate, UIGestureRecognizerDelegate {
     
     // DECLARE VARIABLES
     
     let openedKeyID = "openedBefore",       // Constant
         userMetadataID = "userMetadata",    // Constant
         recordsID = "recordsID"             // Constant
-    
     
     var invalid:String = "-------",         // Default invalid value for all strings
         date:String = "",                   // Date
@@ -33,11 +34,16 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         newPin = MKPointAnnotation(),       // Point for MapKit
         soilRecord:SoilDataRecord?,         // Individual Soil Record
         nrfManagerInstance:NRFManager!,     // Connector to Arduino
-        recordsArray:[Any]?                 // Array of records
+        recordsArray:[Any]?,                // Array of records
+        coordinateRegion:MKCoordinateRegion?// Coordinates
+    
+    var pageOpened = false
     
     //@IBOutlet weak var Save: UIButton!          // Save Button
     @IBOutlet weak var DataTable: UITableView!  // Data Table
-    @IBOutlet weak var template: UIImageView!
+    @IBOutlet weak var BlurView: UIVisualEffectView!
+    @IBOutlet weak var BluetoothView: UIView!
+    
     
     // END VARIABLES
     
@@ -57,8 +63,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         // Temporarily set temporary site string
         UserDefaults.standard.set(siteString, forKey: "tempSiteName")
         
-        template.alpha = 0.15
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleNoteTap), name: Notification.Name("shiftTable"), object: nil)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        
+        //self.BlurView.isHidden = true
+        self.BlurView.effect = UIBlurEffect(style: .regular)
+        self.BluetoothView.alpha = 0.0
     }
 
     // View did appear
@@ -76,6 +88,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         // Update the temporary site string
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
+        
+        // Bluetooth
+        checkBluetooth()
     }
     
     
@@ -146,27 +161,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 else if string!.contains("T: ") {
                     let shortenedDouble = string!.substring(from: indexStartOfText)
                     self.temperature =  String(format: "%0.1f",shortenedDouble)
-                    //print(self.temperature)
-                    /*if (Double(self.temperature) != nil) {
-                        var moistureValue = 2374.3 * pow(Double(self.resistance)! , -0.598)
-                        
-                        moistureValue = Double(round(1000*moistureValue)/1000)
-                        
-                        self.moisture = String(moistureValue)
-                        self.moisture.append(" %")
-                    }*/
-                    
-                    /*self.resistance = string!.substring(from: indexStartOfText)
-                    self.temperature = "20℃"
-                    
-                    if (Double(self.resistance) != nil) {
-                        var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
-                        
-                        moistureValue = Double(round(1000*moistureValue)/1000)
-                        
-                        self.moisture = String(moistureValue)
-                        self.moisture.append(" %")
-                    }*/
                 }
                 
                 if (self.shouldRefreshSensor) {
@@ -197,6 +191,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         recordsArray?.append(data)
         UserDefaults.standard.set(recordsArray, forKey: recordsID)
     }
+    @IBAction func blur(_ sender: Any) {
+        UIApplication.shared.open(URL(string:"App-Prefs:root=Bluetooth")!, options: [:], completionHandler: nil)
+    }
     
     // ---------------------------
     
@@ -207,34 +204,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     // Set the number of sections in the table
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        /*tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
-        // 3 if the table is to be loaded with sensor data
-        if (hasOpenedBefore()) {
-            return 3
-        }*/
-        
-        // 0 if metadata is to be collected first
         return 1
     }
     
-    // Set the number of rows in each section
+    // Set the number of rows
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
-        
-        /*switch section {
-        case 0:
-            return 4
-        case 1:
-            return 3
-        case 2:
-            return 4
-        default:
-            return 0
-        }*/
+        return 6
     }
     
     // Set the cell for each row
@@ -242,151 +219,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Switch depending on row
-        
-        /*switch indexPath.section {
-        case 0:
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addRecordCell", for: indexPath) as! AddRecordTableViewCell
-            cell.selectionStyle = .none
-            cell.detailTextLabel?.textColor = .black
-            
-            switch indexPath.row {
-            case 0:
-                cell.textLabel?.text = "Date"
-                cell.detailTextLabel?.text = date
-                if date == invalid {cell.detailTextLabel?.textColor = .red}
-            case 1:
-                cell.textLabel?.text = "Resistance"
-                cell.detailTextLabel?.text = resistance
-                if resistance == invalid {cell.detailTextLabel?.textColor = .red}
-            case 2:
-                cell.textLabel?.text = "Temperature"
-                cell.detailTextLabel?.text = temperature
-                if temperature == invalid {cell.detailTextLabel?.textColor = .red}
-            case 3:
-                cell.textLabel?.text = "Moisture"
-                cell.detailTextLabel?.text = moisture
-                if moisture == invalid {cell.detailTextLabel?.textColor = .red}
-            default:
-                cell.textLabel?.text = "Date"
-            }
-            
-            return cell
-            
-        case 1:
-            
-            switch indexPath.row {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                cell.selectionStyle = .none
-                cell.title.text = "Weather"
-                cell.detail?.text = String("\(round(100*temp)/100) ℉")
-                cell.detail?.text = String("\(round(100*self.temp)/100) ℉")
-                
-                return cell
-                
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "coordinateCell", for: indexPath) as! CoordinateTableViewCell
-                cell.CoordinatesLabel.text = "(\(round(1000*locManager.location!.coordinate.latitude)/1000), \(round(1000*locManager.location!.coordinate.longitude)/1000))"
-                cell.selectionStyle = .none
-                let coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!,
-                                                                          1000 * 2.0, 1000 * 2.0)
-                cell.mapView.setRegion(coordinateRegion, animated: true)
-                newPin.coordinate = locManager.location!.coordinate
-                cell.mapView.addAnnotation(newPin)
-                cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 216)
-                cell.mapView.layer.cornerRadius = 20.0
-                
-                return cell
-                
-            case 2:
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                
-                cell.selectionStyle = .none
-                cell.title.text = "OS"
-                cell.detail?.text = "iOS \(UIDevice.current.systemVersion)"
-                
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                
-                cell.selectionStyle = .none
-                cell.title.text = ""
-                return cell
-            }
-            
-        case 2:
-            
-            switch indexPath.row {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                cell.selectionStyle = .none
-                cell.title.text = "User ID"
-                let data = UserDefaults.standard.object(forKey: userMetadataID) as? NSData
-                let metadata = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! UserMetadata
-                
-                cell.detail.text = metadata.userID
-                
-                if (cell.detail.text == "") {
-                    cell.detail.text = "----"
-                    cell.detail.textColor = .red
-                }
-                return cell
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                cell.title.text = "Site"
-                if siteString == "" {
-                    cell.accessoryType = .disclosureIndicator
-                }
-                else {
-                    cell.accessoryType = .none
-                }
-                cell.detail.text = siteString
-                cell.isUserInteractionEnabled = true
-                
-                return cell
-            case 2:
-                
-                if (image == nil) {
-                    
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                    cell.title.text = "Image"
-                    cell.isUserInteractionEnabled = true
-                    
-                    let imageView:UIImageView
-                    imageView = UIImageView(image: #imageLiteral(resourceName: "Screenshot-50"))
-                    
-                    imageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-                    cell.accessoryView = imageView
-                    
-                    return cell
-                }
-                
-                else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "imageRecordCell", for: indexPath) as! ImageRecordTableViewCell
-                    print("Returning here")
-                    cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 128)
-                    cell.ImageView.image = self.image
-                    
-                    return cell
-                }
-                
-            case 3:
-                
-                let cell2 = tableView.dequeueReusableCell(withIdentifier: "noteRecordCell", for: indexPath) as! NoteRecordTableViewCell
-                cell2.setup(delegate: self)
-                return cell2
-                
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "newRecordCell", for: indexPath) as! NewRecordTableViewCell
-                cell.title.text = ""
-                return cell
-            }
-            
-        default:
-            print("")
-        }*/
         
         switch indexPath.row {
         case 0:
@@ -404,11 +236,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
             if (resistance != invalid && resistance != " INF" && resistance != "") {
                 let shortenedDouble = Double(resistance)!/1000
-                cell.resistanceLabel.text = "\(String(format: "%0.1f",shortenedDouble)) kΩ"
+                cell.resistanceLabel.text = "\(String(format: "%0.1f",shortenedDouble)) kΩ"
                 
             }
             else if resistance == " INF" {
-                cell.resistanceLabel.text = "INF kΩ"
+                cell.resistanceLabel.text = "INF kΩ"
             }
             
             else {
@@ -417,8 +249,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
             // Temperature
             
-            NSLog(temperature)
-            cell.temperatureLabel.text = temperature //"\(String(format: "%0.1f", temperature))°"
+            cell.temperatureLabel.text = temperature
             
             // Date
             
@@ -435,6 +266,35 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             let cell = tableView.dequeueReusableCell(withIdentifier: "observationsHeader", for: indexPath)
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 44)
             return cell
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "observationsCell", for: indexPath) as! ObservationsTableViewCell
+            
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
+            gestureRecognizer.delegate = self
+            cell.PhotoView.addGestureRecognizer(gestureRecognizer)
+            
+            if image != nil {
+                cell.photo.image = image
+                cell.photo.layer.cornerRadius = 10.0
+            }
+            cell.NotesField.text = ""
+            cell.placeholderLabel.isHidden = false
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 230)
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "mapHeader", for: indexPath)
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 44)
+            return cell
+        case 5:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "mapCell", for: indexPath) as! MapTableViewCell
+            cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 221)
+            
+            // Map setup
+            coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!,
+                                                                      1000 * 2.0, 1000 * 2.0)
+            cell.mapView.setRegion(coordinateRegion!, animated: false)
+            
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SensorReadingCell", for: indexPath)
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 355)
@@ -442,72 +302,25 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    // Handle tableview selections
+    // Present image selector to user
     
-    /*func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // Switch depending on row
-        
-        switch indexPath.section {
-        case 2:
-            switch indexPath.row {
-            case 1:
-                
-                // Handle the site selection
-                
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SiteSelectTableViewController")
-                self.present(vc, animated: true, completion: nil)
-            case 2:
-                
-                // Handle photo selection
-                
-                if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                    
-                    let imagePicker = UIImagePickerController()
-                    
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .camera
-                    imagePicker.allowsEditing = false
-                    
-                    self.present(imagePicker, animated: true, completion: nil)
-                }
+    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             
-            default:
-                print("")
-            }
-        default:
-            print("")
+            let imagePicker = UIImagePickerController()
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
         }
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-    }*/
-    
-    // Edit the name of the title in each section
-    
-    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        switch section {
-        case 0:
-            return "Sensor Readings: "
-        case 1:
-            return "App Collected Data"
-        case 2:
-            return "User Input"
-        default:
-            return ""
-        }
-    }*/
-    
-    /*func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    {
-        return tableView.dequeueReusableCell(withIdentifier: "tableViewHeader")
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-    {
-        return 44
+    // Scroll notes to correct page
+    func handleNoteTap() {
+        DataTable.scrollToRow(at: IndexPath(row: 2, section: 0), at: UITableViewScrollPosition.top, animated: true)
     }
-    */
     
     // Set height for each row
     
@@ -518,6 +331,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             return 44
         case 1:
             return 355
+        case 2:
+            return 44
+        case 3:
+            return 230
+        case 4:
+            return 44
+        case 5:
+            return 221
         default:
             return 44
         }
@@ -546,7 +367,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     // Print if there is an error with the weather getter
-    
+
     func didNotGetWeather(error: NSError) {
         print("didNotGetWeather error: \(error)")
     }
@@ -581,11 +402,55 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         measure()
     }
     
+    func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     // ---------------------------
     
     // MARK: Bluetooth Methods
     
     // ---------------------------
+    
+    // Check Bluetooth Connection
+    
+    func checkBluetooth() {
+        
+        //let btConnection = CBPer.init()
+        print("Bluetooth:")
+        print(nrfManagerInstance.connectionStatus)
+        
+        if nrfManagerInstance.connectionStatus != .connected {
+            
+            BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 1000)
+            
+            UIView.animate(withDuration: 1.0, animations: {
+                self.view.bringSubview(toFront: self.BlurView)
+                self.view.bringSubview(toFront: self.BluetoothView)
+            })
+            
+            if (!pageOpened) {
+                UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3, options: UIViewAnimationOptions.curveEaseIn, animations:
+                    {
+                        self.BluetoothView.alpha = 1.0
+                        self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 10 + self.view.frame.height/2)
+                        
+                }, completion:nil)
+                pageOpened = true
+            }
+            
+            else {
+                self.BluetoothView.alpha = 1.0
+                self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 10 + self.view.frame.height/2)
+            }
+            
+            //self.BluetoothView.frame = CGRect.init(x: 100, y: 100, width: 100, height: 100)
+            
+            BluetoothView.layer.cornerRadius = 15
+            //BluetoothView.layer.borderWidth = 1.0
+            //BluetoothView.layer.borderColor = UIColor.lightGray.cgColor
+        }
+    }
     
     // Can delete eventually if not sending any data to arduino
     
@@ -612,3 +477,4 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     */
 
 }
+
