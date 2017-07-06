@@ -23,7 +23,6 @@ public enum ConnectionStatus {
 }
 
 
-
 /*!
 *  @class NRFManager
 *
@@ -50,6 +49,8 @@ open class NRFManager:NSObject, CBCentralManagerDelegate, UARTPeripheralDelegate
     open var verbose = false
     open var autoConnect = true
     open var delegate:NRFManagerDelegate?
+    
+    open var bluetoothOn = false
 
     //callbacks
     open var connectionCallback:(()->())?
@@ -203,9 +204,11 @@ extension NRFManager {
                     connect("")
                 }
                 
+                bluetoothOn = true
                 connect("JPLSoil")
                 
             } else if central.state == .poweredOff {
+                bluetoothOn = false
                 log("Powered off!")
                 connectionStatus = ConnectionStatus.disconnected
                 connectionMode = ConnectionMode.none

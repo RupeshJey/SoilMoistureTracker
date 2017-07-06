@@ -626,29 +626,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pRV-VL-hFw">
-                                <rect key="frame" x="38" y="199" width="300" height="242"/>
+                                <rect key="frame" x="38" y="199" width="300" height="189"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bluetooth-symbol-silhouette_318-38721.png" translatesAutoresizingMaskIntoConstraints="NO" id="p6G-0o-h7H">
-                                        <rect key="frame" x="-15" y="40" width="162" height="162"/>
+                                        <rect key="frame" x="3" y="29" width="131" height="131"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please Turn on Bluetooth in iPhone Settings" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAz-FI-rjl">
-                                        <rect key="frame" x="135" y="59" width="150" height="93"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Scanning for Soil Moisture Sensor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAz-FI-rjl">
+                                        <rect key="frame" x="123" y="48" width="153" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJd-2i-UM7">
-                                        <rect key="frame" x="166" y="153" width="82" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-TP-3sV">
+                                        <rect key="frame" x="158" y="121" width="75" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                         <state key="normal" title="Settings">
                                             <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="blur:" destination="0Fb-DN-uK9" eventType="touchUpInside" id="WFq-5l-RUJ"/>
+                                            <action selector="bluetoothSettings:" destination="0Fb-DN-uK9" eventType="touchUpInside" id="Jyn-Hd-vcP"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -666,9 +666,12 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Measure" image="Add Property-50.png" id="7hI-jv-dVL"/>
                     <connections>
+                        <outlet property="BluetoothImage" destination="p6G-0o-h7H" id="Ka8-l7-DQ5"/>
+                        <outlet property="BluetoothText" destination="ZAz-FI-rjl" id="40e-Zh-Qrg"/>
                         <outlet property="BluetoothView" destination="pRV-VL-hFw" id="pPh-Ou-TRe"/>
                         <outlet property="BlurView" destination="gG2-j5-nDh" id="r8x-jn-0SR"/>
                         <outlet property="DataTable" destination="eMO-d5-Bzc" id="90S-fg-Q5L"/>
+                        <outlet property="SettingsButton" destination="apQ-TP-3sV" id="xt9-yD-Ivl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Coy-wC-nam" userLabel="First Responder" sceneMemberID="firstResponder"/>

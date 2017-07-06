@@ -43,7 +43,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var DataTable: UITableView!  // Data Table
     @IBOutlet weak var BlurView: UIVisualEffectView!
     @IBOutlet weak var BluetoothView: UIView!
-    
+    @IBOutlet weak var BluetoothImage: UIImageView!
+    @IBOutlet weak var BluetoothText: UILabel!
+    @IBOutlet weak var SettingsButton:UIButton!
     
     // END VARIABLES
     
@@ -71,6 +73,16 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         //self.BlurView.isHidden = true
         self.BlurView.effect = UIBlurEffect(style: .regular)
         self.BluetoothView.alpha = 0.0
+        
+        // Scheduling timer to call the bluetooth checker with the interval of 1 second
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(AddSoilRecordViewController.checkBluetooth), userInfo: nil, repeats: true)
+        
+        let image = UIImage(named: "bluetooth-symbol-silhouette_318-38721")!.withRenderingMode(.alwaysTemplate)
+        
+        BluetoothImage.image = image
+        //self.BluetoothImage.alpha = 0.4
+        self.BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: 1.0)
+        self.SettingsButton.isHidden = true
     }
 
     // View did appear
@@ -90,7 +102,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
         
         // Bluetooth
-        checkBluetooth()
+        //checkBluetooth()
+        
+        
     }
     
     
@@ -130,9 +144,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         nrfManagerInstance = NRFManager(
             onConnect: {
                 print("Connected")
+                //self.checkBluetooth()
         },
             onDisconnect: {
                 print("Disconnected")
+                //self.checkBluetooth()
         },
             onData: {
                 (data:Data?, string:String?)->() in
@@ -190,9 +206,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         let data = NSKeyedArchiver.archivedData(withRootObject: self.soilRecord!)
         recordsArray?.append(data)
         UserDefaults.standard.set(recordsArray, forKey: recordsID)
-    }
-    @IBAction func blur(_ sender: Any) {
-        UIApplication.shared.open(URL(string:"App-Prefs:root=Bluetooth")!, options: [:], completionHandler: nil)
     }
     
     // ---------------------------
@@ -417,14 +430,19 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     func checkBluetooth() {
         
         //let btConnection = CBPer.init()
-        print("Bluetooth:")
-        print(nrfManagerInstance.connectionStatus)
+        //print("Bluetooth:")
+        //print(nrfManagerInstance.connectionStatus)
         
-        if nrfManagerInstance.connectionStatus != .connected {
+        //let central = CBCentralManager.init()
+        //central.delegate = self
+        //print("state: %s", central.state.rawValue)
+        
+        if nrfManagerInstance.connectionStatus == .disconnected {
             
             BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 1000)
             
             UIView.animate(withDuration: 1.0, animations: {
+                //self.BlurView.alpha = 1.0
                 self.view.bringSubview(toFront: self.BlurView)
                 self.view.bringSubview(toFront: self.BluetoothView)
             })
@@ -432,24 +450,79 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             if (!pageOpened) {
                 UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3, options: UIViewAnimationOptions.curveEaseIn, animations:
                     {
+                        self.BlurView.alpha = 1.0
                         self.BluetoothView.alpha = 1.0
-                        self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 10 + self.view.frame.height/2)
+                        self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: self.view.frame.height/2)
                         
                 }, completion:nil)
                 pageOpened = true
             }
             
             else {
+                self.BlurView.alpha = 1.0
                 self.BluetoothView.alpha = 1.0
-                self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 10 + self.view.frame.height/2)
+                self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: self.view.frame.height/2)
             }
             
-            //self.BluetoothView.frame = CGRect.init(x: 100, y: 100, width: 100, height: 100)
-            
             BluetoothView.layer.cornerRadius = 15
-            //BluetoothView.layer.borderWidth = 1.0
-            //BluetoothView.layer.borderColor = UIColor.lightGray.cgColor
+            
+            if nrfManagerInstance.bluetoothOn == true {
+                self.BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: 1.0)
+                //self.BluetoothImage.alpha = 0.4
+                UIView.animate(withDuration: 0.75, delay: 0.0, options:[UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.autoreverse], animations: {
+                    
+                    self.BluetoothImage.alpha = 0.4
+                    
+                }, completion:nil)
+                
+                UIView.animate(withDuration: 0.3, delay: 0.0, options:[UIViewAnimationOptions.curveLinear], animations: {
+                    
+                    self.SettingsButton.isHidden = true
+                    self.BluetoothText.center = CGPoint.init(x: 200, y: 95)
+                    
+                }, completion:nil)
+                
+                self.BluetoothText.text = "Scanning for Soil Moisture Sensor"
+                measure()
+            }
+            
+            else {
+                
+                UIView.animate(withDuration: 0.3, delay: 0.0, options:[UIViewAnimationOptions.curveLinear], animations: {
+                    
+                    self.BluetoothText.center = CGPoint.init(x: 200, y: 75)
+                    self.SettingsButton.isHidden = false
+                    
+                }, completion:nil)
+                
+                
+                
+                self.BluetoothImage.layer.removeAllAnimations()
+                self.BluetoothImage.alpha = 1.0
+                self.BluetoothImage.tintColor = UIColor.lightGray
+                self.BluetoothText.text = "Please Turn on Bluetooth in iOS Settings"
+            }
         }
+        
+        else if nrfManagerInstance.connectionStatus == .connected {
+            
+            UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3, options: UIViewAnimationOptions.curveEaseIn, animations:
+                {
+                    self.BlurView.alpha = 0.0
+                    self.BluetoothView.alpha = 0.0
+                    self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 1000)
+                    self.pageOpened = false
+                    
+            }, completion:{
+                (result:Bool) in
+                self.view.bringSubview(toFront: self.DataTable)
+            })
+        }
+    }
+    
+    
+    @IBAction func bluetoothSettings(_ sender: Any) {
+        UIApplication.shared.open(URL(string:"App-Prefs:root=Bluetooth")!, options: [:], completionHandler: nil)
     }
     
     // Can delete eventually if not sending any data to arduino
