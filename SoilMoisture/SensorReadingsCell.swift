@@ -14,22 +14,27 @@ class SensorReadingsCell: UITableViewCell {
     @IBOutlet weak var ResistanceView: UIView!
     @IBOutlet weak var TemperatureView: UIView!
     @IBOutlet weak var DateView: UIView!
-    @IBOutlet weak var WaterBar: UIView!
+    //@IBOutlet weak var WaterBar: UIView!
     
     // Moisture Views
     @IBOutlet weak var moistureLabel: UILabel!
+    @IBOutlet weak var waveWater: UIView!
+    @IBOutlet weak var barWater: UIView!
     
     // Resistance Views
     @IBOutlet weak var resistanceLabel: UILabel!
     
     // Temperature Views
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var temperatureCelsiusLabel: UILabel!
+    @IBOutlet weak var temperatureBar:UIView!
     
     // Date Views
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
     let cornerRadius:CGFloat = 10.0         // Corner radius
+    var temperature:Double = 0.0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,12 +45,15 @@ class SensorReadingsCell: UITableViewCell {
         ResistanceView.layer.cornerRadius = cornerRadius
         DateView.layer.cornerRadius = cornerRadius
         
-        //WaterBar.layer.cornerRadius = cornerRadius
+        
+        //UIView.animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
+        
         let maskLayer = CAShapeLayer()
-        maskLayer.path = UIBezierPath(roundedRect: WaterBar.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
-        WaterBar.layer.mask = maskLayer
+        maskLayer.path = UIBezierPath(roundedRect: barWater.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
+        barWater.layer.mask = maskLayer
     }
 
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

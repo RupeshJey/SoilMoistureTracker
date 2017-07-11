@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ObservationsTableViewCellDelegate {
+    func didEndEditing()
+}
+
 class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate {
 
     @IBOutlet weak var PhotoView: UIView!
@@ -27,6 +31,8 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     let sitesID = "sitesList"               // Constant to retrieve sites
     var sitesArray:[Any]?                   // Array of sites
     
+    private var delegate: ObservationsTableViewCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -38,9 +44,6 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         
         photo.layer.cornerRadius = cornerRadius
         photo.clipsToBounds = true
-        
-        //SiteView.backgroundColor = UIColor.white
-        //NotesView.backgroundColor = UIColor.white
         
         SiteView.layer.borderWidth = borderWidth
         NotesView.layer.borderWidth = borderWidth
@@ -107,6 +110,7 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        self.delegate?.didEndEditing()
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
@@ -126,6 +130,10 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         // Configure the view for the selected state
     }
 
+    
+    func setup(delegate: ObservationsTableViewCellDelegate) {
+        self.delegate = delegate
+    }
 }
 
 extension UITextView {

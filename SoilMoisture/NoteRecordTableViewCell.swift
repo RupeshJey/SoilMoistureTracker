@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NoteRecordTableViewCellDelegate {
-    func didBeginEditing()
+    //func didBeginEditing()
     func didEndEditing()
 }
 
@@ -28,12 +28,9 @@ class NoteRecordTableViewCell: UITableViewCell {
     func setup(delegate: NoteRecordTableViewCellDelegate) {
         self.delegate = delegate
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.delegate?.didBeginEditing()
-    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        print("Text field done editing")
         self.delegate?.didEndEditing()
     }
     

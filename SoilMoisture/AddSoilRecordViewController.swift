@@ -12,7 +12,7 @@ import MapKit
 
 import CoreBluetooth
 
-class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NoteRecordTableViewCellDelegate, UIGestureRecognizerDelegate {
+class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, WeatherGetterDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, ObservationsTableViewCellDelegate {
     
     // DECLARE VARIABLES
     
@@ -35,6 +35,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         soilRecord:SoilDataRecord?,         // Individual Soil Record
         nrfManagerInstance:NRFManager!,     // Connector to Arduino
         recordsArray:[Any]?,                // Array of records
+        timer: Timer?,                      // Timer
         coordinateRegion:MKCoordinateRegion?// Coordinates
     
     var pageOpened = false
@@ -67,15 +68,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleNoteTap), name: Notification.Name("shiftTable"), object: nil)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        //view.addGestureRecognizer(tapGesture)
         
         //self.BlurView.isHidden = true
         self.BlurView.effect = UIBlurEffect(style: .regular)
         self.BluetoothView.alpha = 0.0
         
         // Scheduling timer to call the bluetooth checker with the interval of 1 second
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(AddSoilRecordViewController.checkBluetooth), userInfo: nil, repeats: true)
+        startTimer()
         
         let image = UIImage(named: "bluetooth-symbol-silhouette_318-38721")!.withRenderingMode(.alwaysTemplate)
         
@@ -102,9 +103,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
         
         // Bluetooth
-        //checkBluetooth()
-        
-        
+        animateBluetooth()
     }
     
     
@@ -161,12 +160,16 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 // Pick out the resistance and evaluate moisture
                 let indexStartOfText = string!.index(string!.startIndex, offsetBy: 3)
                 
+                print(string!)
+                
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
                     
                     if (Double(self.resistance) != nil) {
-                        var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
+                        // 611897 * resistance ^ -1.196
+                        //var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
                         
+                        var moistureValue = 611897 * pow(Double(self.resistance)! , -1.196)
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
                         self.moisture = String(format: "%0.1f",moistureValue)
@@ -176,7 +179,13 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 else if string!.contains("T: ") {
                     let shortenedDouble = string!.substring(from: indexStartOfText)
-                    self.temperature =  String(format: "%0.1f",shortenedDouble)
+                    if shortenedDouble != "-196.60" {
+                        self.temp = Double(shortenedDouble)!
+                        self.temperature =  String(format: "%0.1f",self.temp) + "℉"
+                    }
+                    else {
+                        self.temperature = "Disconnected"
+                    }
                 }
                 
                 if (self.shouldRefreshSensor) {
@@ -263,7 +272,19 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             // Temperature
             
             cell.temperatureLabel.text = temperature
+            cell.temperature = self.temp
             
+            cell.temperatureCelsiusLabel.text = invalid
+            
+            if cell.temperatureLabel.text != invalid {
+                cell.temperatureCelsiusLabel.text = String(format: "%0.1f" , (self.temp - 32)/1.8) + "℃"
+                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp/100)), width: 6.5, height: max(0, 90 * (self.temp/100)))
+            }
+            
+            else {
+                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp/100)), width: 6.5, height: max(0, 90 * (self.temp/100)))
+            }
+
             // Date
             
             let formatter = DateFormatter()
@@ -281,7 +302,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "observationsCell", for: indexPath) as! ObservationsTableViewCell
-            
+            cell.setup(delegate: self)
             let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
             gestureRecognizer.delegate = self
             cell.PhotoView.addGestureRecognizer(gestureRecognizer)
@@ -290,8 +311,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.photo.image = image
                 cell.photo.layer.cornerRadius = 10.0
             }
-            cell.NotesField.text = ""
-            cell.placeholderLabel.isHidden = false
+            //cell.NotesField.text = ""
+            //cell.placeholderLabel.isHidden = false
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 230)
             return cell
         case 4:
@@ -332,6 +353,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // Scroll notes to correct page
     func handleNoteTap() {
+        stopTimer()
         DataTable.scrollToRow(at: IndexPath(row: 2, section: 0), at: UITableViewScrollPosition.top, animated: true)
     }
     
@@ -385,38 +407,22 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         print("didNotGetWeather error: \(error)")
     }
     
-    // Offset upon begin editing
-    func didBeginEditing() {
-        
-        // Stop refreshing the sensor
-        shouldRefreshSensor = false
-        
-        if (imageBool) {
-            DataTable.setContentOffset(CGPoint.init(x: 0, y: 334), animated: true)
-        }
-        
-        else {
-            DataTable.setContentOffset(CGPoint.init(x: 0, y: 250), animated: true)
-        }
-        
-        DataTable.allowsSelection = false
-    }
-    
-    // Offset upon end editing and refresh
-    func didEndEditing() {
+    // Timer to refresh table
+    func startTimer () {
+        print("starting timer")
         shouldRefreshSensor = true
-        if (imageBool) {
-            DataTable.setContentOffset(CGPoint(x: 0, y: 199), animated: true)
-        }
-        else {
-            DataTable.setContentOffset(CGPoint(x: 0, y: 115), animated: true)
-        }
-        DataTable.allowsSelection = true
-        measure()
+        timer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(AddSoilRecordViewController.checkBluetooth), userInfo: nil, repeats: true)
     }
     
-    func hideKeyboard() {
-        view.endEditing(true)
+    func stopTimer() {
+        print("stopping timer")
+        shouldRefreshSensor = false
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func didEndEditing() {
+        startTimer()
     }
     
     // ---------------------------
@@ -520,6 +526,20 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    func animateBluetooth() {
+        if nrfManagerInstance.connectionStatus == .disconnected && nrfManagerInstance.bluetoothOn == true {
+            
+            self.BluetoothImage.alpha = 1.0
+            
+            self.BluetoothImage.layer.removeAllAnimations()
+            
+            UIView.animate(withDuration: 0.75, delay: 0.0, options:[UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.autoreverse], animations: {
+                
+                self.BluetoothImage.alpha = 0.4
+                
+            }, completion:nil)
+        }
+    }
     
     @IBAction func bluetoothSettings(_ sender: Any) {
         UIApplication.shared.open(URL(string:"App-Prefs:root=Bluetooth")!, options: [:], completionHandler: nil)
