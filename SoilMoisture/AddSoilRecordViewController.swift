@@ -28,6 +28,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         siteString = "",                    // Selected site string
         locManager = CLLocationManager(),   // Location Manager to get coordinates
         temp:Double = 0.0,                  // Numerical temperature
+        resist:Double = 0.0,                // Numberical resistance
         image:UIImage?,                     // Image
         imageBool:Bool = false,             // Boolean for image
         shouldRefreshSensor:Bool = true,    // Boolean whether to refresh sensor
@@ -35,7 +36,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         soilRecord:SoilDataRecord?,         // Individual Soil Record
         nrfManagerInstance:NRFManager!,     // Connector to Arduino
         recordsArray:[Any]?,                // Array of records
+        moistureNumber:Double? = 0.0,
         timer: Timer?,                      // Timer
+        map:MKMapView? = nil,
         coordinateRegion:MKCoordinateRegion?// Coordinates
     
     var pageOpened = false
@@ -84,6 +87,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         //self.BluetoothImage.alpha = 0.4
         self.BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: 1.0)
         self.SettingsButton.isHidden = true
+        
+        // Map loading 
+        coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!, 1000 * 2.0, 1000 * 2.0)
+        //
     }
 
     // View did appear
@@ -102,8 +109,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         // Update the temporary site string
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
         
-        // Bluetooth
+        // Animate the Bluetooth pulse
         animateBluetooth()
+        
     }
     
     
@@ -160,8 +168,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 // Pick out the resistance and evaluate moisture
                 let indexStartOfText = string!.index(string!.startIndex, offsetBy: 3)
                 
-                print(string!)
-                
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
                     
@@ -171,6 +177,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                         
                         var moistureValue = 611897 * pow(Double(self.resistance)! , -1.196)
                         moistureValue = Double(round(1000*moistureValue)/1000)
+                        
+                        self.moistureNumber = moistureValue
                         
                         self.moisture = String(format: "%0.1f",moistureValue)
                         self.moisture.append("%")
@@ -252,21 +260,28 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
             // Soil Moisture
             
+            // from to 22 to 157
+            
             cell.moistureLabel.text = moisture
+            cell.barWater.frame = CGRect.init(x: 0.5, y: 169 - (157-22) * (min(self.moistureNumber!, 100)/100), width: 154, height: 22 + (157-22) * (min(self.moistureNumber!, 100)/100))
+            cell.waveWater.center = CGPoint.init(x: 90.5, y: 152.5 + (157-22) * (min(self.moistureNumber!, 100)/100))
             
             // Resistance
             
             if (resistance != invalid && resistance != " INF" && resistance != "") {
                 let shortenedDouble = Double(resistance)!/1000
+                self.resist = shortenedDouble
                 cell.resistanceLabel.text = "\(String(format: "%0.1f",shortenedDouble)) kΩ"
                 
             }
             else if resistance == " INF" {
                 cell.resistanceLabel.text = "INF kΩ"
+                self.resist = Double.greatestFiniteMagnitude
             }
             
             else {
                 cell.resistanceLabel.text = invalid
+                self.resist = 0
             }
             
             // Temperature
@@ -324,8 +339,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 221)
             
             // Map setup
-            coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!,
-                                                                      1000 * 2.0, 1000 * 2.0)
+            //cell.mapView = map
             cell.mapView.setRegion(coordinateRegion!, animated: false)
             
             return cell
