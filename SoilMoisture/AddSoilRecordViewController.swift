@@ -18,7 +18,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     let openedKeyID = "openedBefore",       // Constant
         userMetadataID = "userMetadata",    // Constant
-        recordsID = "recordsID"             // Constant
+        recordsID = "recordsID",            // Constant
+        maxAlpha:CGFloat = 1.0,             // Maximum alpha for fade animations
+        minAlpha:CGFloat = 0.4              // Minimum alpha for fade animations
     
     var invalid:String = "-------",         // Default invalid value for all strings
         date:String = "",                   // Date
@@ -36,20 +38,19 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         soilRecord:SoilDataRecord?,         // Individual Soil Record
         nrfManagerInstance:NRFManager!,     // Connector to Arduino
         recordsArray:[Any]?,                // Array of records
-        moistureNumber:Double? = 0.0,
+        moistureNumber:Double? = 0.0,       // Numerical moisture
         timer: Timer?,                      // Timer
-        map:MKMapView? = nil,
         coordinateRegion:MKCoordinateRegion?// Coordinates
     
     var pageOpened = false
     
-    //@IBOutlet weak var Save: UIButton!          // Save Button
-    @IBOutlet weak var DataTable: UITableView!  // Data Table
-    @IBOutlet weak var BlurView: UIVisualEffectView!
-    @IBOutlet weak var BluetoothView: UIView!
-    @IBOutlet weak var BluetoothImage: UIImageView!
-    @IBOutlet weak var BluetoothText: UILabel!
-    @IBOutlet weak var SettingsButton:UIButton!
+    //@IBOutlet weak var Save: UIButton!                // Save Button
+    @IBOutlet weak var DataTable: UITableView!          // Data Table
+    @IBOutlet weak var BlurView: UIVisualEffectView!    // Blur before Bluetooth View
+    @IBOutlet weak var BluetoothView: UIView!           // Bluetooth view
+    @IBOutlet weak var BluetoothImage: UIImageView!     // Bluetooth image
+    @IBOutlet weak var BluetoothText: UILabel!          // Bluetooth notifying text
+    @IBOutlet weak var SettingsButton:UIButton!         // Button to take user into settings
     
     // END VARIABLES
     
@@ -61,36 +62,19 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         setupInvalids()
         
         // Set up the location manager
-        locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBest
-        locManager.requestWhenInUseAuthorization()
-        locManager.startMonitoringSignificantLocationChanges()
+        locationSetup()
         
-        // Temporarily set temporary site string
-        UserDefaults.standard.set(siteString, forKey: "tempSiteName")
-        
+        // Listen for shifting table as necessary
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleNoteTap), name: Notification.Name("shiftTable"), object: nil)
         
-        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        //view.addGestureRecognizer(tapGesture)
-        
-        //self.BlurView.isHidden = true
-        self.BlurView.effect = UIBlurEffect(style: .regular)
-        self.BluetoothView.alpha = 0.0
+        // Bluetooth error-handling view setup
+        bluetoothSetup()
         
         // Scheduling timer to call the bluetooth checker with the interval of 1 second
         startTimer()
         
-        let image = UIImage(named: "bluetooth-symbol-silhouette_318-38721")!.withRenderingMode(.alwaysTemplate)
-        
-        BluetoothImage.image = image
-        //self.BluetoothImage.alpha = 0.4
-        self.BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: 1.0)
-        self.SettingsButton.isHidden = true
-        
         // Map loading 
         coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!, 1000 * 2.0, 1000 * 2.0)
-        //
     }
 
     // View did appear
@@ -100,11 +84,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         if !self.hasOpenedBefore() {self.getMetadata()}
         
         // Collect sensor data
-        measure()
+        getArduinoData()
         
         // Get weather by passing coordinates
-        let weather = WeatherGetter.init(delegate: self)
-        weather.getWeather(latitude: String(locManager.location!.coordinate.latitude), longitude: String(locManager.location!.coordinate.longitude))
+        getWeather()
         
         // Update the temporary site string
         siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
@@ -114,6 +97,23 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
     }
     
+    // Location manager details
+    func locationSetup() {
+        locManager.delegate = self
+        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.requestWhenInUseAuthorization()
+        locManager.startMonitoringSignificantLocationChanges()
+    }
+    
+    // Setup bluetooth view
+    func bluetoothSetup() {
+        BlurView.effect = UIBlurEffect(style: .regular)
+        BluetoothView.alpha = 0.0
+        BluetoothImage.image = UIImage(named: "bluetooth-symbol-silhouette_318-38721")!.withRenderingMode(.alwaysTemplate)
+        BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: maxAlpha)
+        SettingsButton.isHidden = true
+        BluetoothView.layer.cornerRadius = 15
+    }
     
     // Mark the main data fields as invalid (sensor hasn't collected yet)
     func setupInvalids() {
@@ -130,32 +130,27 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         self.present(nextVC, animated: true, completion: nil)
     }
     
+    // Weather by passing coordinates
+    func getWeather() {
+        let weather = WeatherGetter.init(delegate: self)
+        weather.getWeather(latitude: String(locManager.location!.coordinate.latitude), longitude: String(locManager.location!.coordinate.longitude))
+    }
+    
     // Helper function to tell whether app has been opened before
     func hasOpenedBefore() -> Bool {
         return true//UserDefaults.standard.bool(forKey: openedKeyID)
     }
     
-    // This function handles data collection from the sensor and error handling
-    func measure() {
-        
-        if(!getArduinoData()) {
-            let alert = UIAlertController(title: "Error", message: "Could not connect to Arduino. Please check the connection and try again.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     // This function gets valid sensor data
-    func getArduinoData() -> Bool {
+    
+    func getArduinoData() {
         
         nrfManagerInstance = NRFManager(
             onConnect: {
                 print("Connected")
-                //self.checkBluetooth()
         },
             onDisconnect: {
                 print("Disconnected")
-                //self.checkBluetooth()
         },
             onData: {
                 (data:Data?, string:String?)->() in
@@ -172,8 +167,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                     self.resistance = string!.substring(from: indexStartOfText)
                     
                     if (Double(self.resistance) != nil) {
-                        // 611897 * resistance ^ -1.196
-                        //var moistureValue = 80*2374.3 * pow(Double(self.resistance)! , -0.598)
                         
                         var moistureValue = 611897 * pow(Double(self.resistance)! , -1.196)
                         moistureValue = Double(round(1000*moistureValue)/1000)
@@ -204,11 +197,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         nrfManagerInstance.autoConnect = false
         nrfManagerInstance.connect("JPLSoil")
-        
-        return true
     }
     
     // Save record into user defaults
+    
     @IBAction func save(_ sender: Any) {
         print("Saving!")
         
@@ -326,8 +318,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 cell.photo.image = image
                 cell.photo.layer.cornerRadius = 10.0
             }
-            //cell.NotesField.text = ""
-            //cell.placeholderLabel.isHidden = false
+            
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 230)
             return cell
         case 4:
@@ -337,9 +328,6 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "mapCell", for: indexPath) as! MapTableViewCell
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 221)
-            
-            // Map setup
-            //cell.mapView = map
             cell.mapView.setRegion(coordinateRegion!, animated: false)
             
             return cell
@@ -351,12 +339,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     // Present image selector to user
-    
+
     func handleTap(gestureRecognizer: UIGestureRecognizer) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             
             let imagePicker = UIImagePickerController()
-            
             imagePicker.delegate = self
             imagePicker.sourceType = .camera
             imagePicker.allowsEditing = false
@@ -449,20 +436,12 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     func checkBluetooth() {
         
-        //let btConnection = CBPer.init()
-        //print("Bluetooth:")
-        //print(nrfManagerInstance.connectionStatus)
-        
-        //let central = CBCentralManager.init()
-        //central.delegate = self
-        //print("state: %s", central.state.rawValue)
-        
+        // Bluetooth is not connected, present notification
         if nrfManagerInstance.connectionStatus == .disconnected {
             
             BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: 1000)
             
             UIView.animate(withDuration: 1.0, animations: {
-                //self.BlurView.alpha = 1.0
                 self.view.bringSubview(toFront: self.BlurView)
                 self.view.bringSubview(toFront: self.BluetoothView)
             })
@@ -470,8 +449,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             if (!pageOpened) {
                 UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3, options: UIViewAnimationOptions.curveEaseIn, animations:
                     {
-                        self.BlurView.alpha = 1.0
-                        self.BluetoothView.alpha = 1.0
+                        self.BlurView.alpha = self.maxAlpha
+                        self.BluetoothView.alpha = self.maxAlpha
                         self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: self.view.frame.height/2)
                         
                 }, completion:nil)
@@ -479,19 +458,17 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             }
             
             else {
-                self.BlurView.alpha = 1.0
-                self.BluetoothView.alpha = 1.0
+                self.BlurView.alpha = maxAlpha
+                self.BluetoothView.alpha = maxAlpha
                 self.BluetoothView.center = CGPoint.init(x: self.view.frame.width/2, y: self.view.frame.height/2)
             }
             
-            BluetoothView.layer.cornerRadius = 15
             
             if nrfManagerInstance.bluetoothOn == true {
                 self.BluetoothImage.tintColor = UIColor.init(red: 48.0/255.0, green: 132/255.0, blue: 244/255.0, alpha: 1.0)
-                //self.BluetoothImage.alpha = 0.4
                 UIView.animate(withDuration: 0.75, delay: 0.0, options:[UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.autoreverse], animations: {
                     
-                    self.BluetoothImage.alpha = 0.4
+                    self.BluetoothImage.alpha = self.minAlpha
                     
                 }, completion:nil)
                 
@@ -503,7 +480,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 }, completion:nil)
                 
                 self.BluetoothText.text = "Scanning for Soil Moisture Sensor"
-                measure()
+                getArduinoData()
             }
             
             else {
@@ -515,15 +492,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                     
                 }, completion:nil)
                 
-                
-                
                 self.BluetoothImage.layer.removeAllAnimations()
-                self.BluetoothImage.alpha = 1.0
+                self.BluetoothImage.alpha = maxAlpha
                 self.BluetoothImage.tintColor = UIColor.lightGray
                 self.BluetoothText.text = "Please Turn on Bluetooth in iOS Settings"
             }
         }
         
+        // Bluetooth is connected, let user through.
         else if nrfManagerInstance.connectionStatus == .connected {
             
             UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 3, options: UIViewAnimationOptions.curveEaseIn, animations:
@@ -540,27 +516,30 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    // If scanning, pulse the bluetooth image
+    
     func animateBluetooth() {
         if nrfManagerInstance.connectionStatus == .disconnected && nrfManagerInstance.bluetoothOn == true {
             
-            self.BluetoothImage.alpha = 1.0
-            
+            self.BluetoothImage.alpha = maxAlpha
             self.BluetoothImage.layer.removeAllAnimations()
             
+            // Animation
             UIView.animate(withDuration: 0.75, delay: 0.0, options:[UIViewAnimationOptions.repeat, UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.autoreverse], animations: {
                 
-                self.BluetoothImage.alpha = 0.4
+                // maxAlpha -> minAlpha and back
+                self.BluetoothImage.alpha = self.minAlpha
                 
             }, completion:nil)
         }
     }
     
+    // Take user to iOS bluetooth settings
     @IBAction func bluetoothSettings(_ sender: Any) {
         UIApplication.shared.open(URL(string:"App-Prefs:root=Bluetooth")!, options: [:], completionHandler: nil)
     }
     
     // Can delete eventually if not sending any data to arduino
-    
     func sendData()
     {
         // Example of sending data from phone to arduino
