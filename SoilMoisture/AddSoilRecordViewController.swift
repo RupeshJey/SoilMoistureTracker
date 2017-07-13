@@ -255,8 +255,8 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             // from to 22 to 157
             
             cell.moistureLabel.text = moisture
-            cell.barWater.frame = CGRect.init(x: 0.5, y: 169 - (157-22) * (min(self.moistureNumber!, 100)/100), width: 154, height: 22 + (157-22) * (min(self.moistureNumber!, 100)/100))
-            cell.waveWater.center = CGPoint.init(x: 90.5, y: 152.5 + (157-22) * (min(self.moistureNumber!, 100)/100))
+            //cell.barWater.frame = CGRect.init(x: 0.5, y: 169 - (157-22) * (min(self.moistureNumber!, 100)/100), width: 154, height: 22 + (157-22) * (min(self.moistureNumber!, 100)/100))
+            //cell.waveWater.center = CGPoint.init(x: 90.5, y: 152.5 + (157-22) * (min(self.moistureNumber!, 100)/100))
             
             // Resistance
             

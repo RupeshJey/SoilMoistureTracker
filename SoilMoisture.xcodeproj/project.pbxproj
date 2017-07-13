@@ -11,6 +11,8 @@
 		8216A7471F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png in Resources */ = {isa = PBXBuildFile; fileRef = 8216A7461F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png */; };
 		821B549F1F02D61B00F87F66 /* Sandbox-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */; };
 		823C69601F1537D4004BEBDD /* Hand Planting-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 823C695F1F1537D4004BEBDD /* Hand Planting-96.png */; };
+		826BC33C1F17E7A0006A25ED /* SitesInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826BC33B1F17E7A0006A25ED /* SitesInfoViewController.swift */; };
+		826BC33F1F180896006A25ED /* SiteInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826BC33E1F180896006A25ED /* SiteInfoTableViewCell.swift */; };
 		8283FDBE1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDBD1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png */; };
 		8283FDC01F085F2C00F1508A /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDBF1F085F2C00F1508A /* Arrow.png */; };
 		8283FDC21F08629C00F1508A /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDC11F08629C00F1508A /* Camera.png */; };
@@ -95,6 +97,8 @@
 		8216A7461F0DA1500099B129 /* bluetooth-symbol-silhouette_318-38721.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluetooth-symbol-silhouette_318-38721.png"; sourceTree = "<group>"; };
 		821B549E1F02D61B00F87F66 /* Sandbox-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sandbox-50@2x.png"; sourceTree = "<group>"; };
 		823C695F1F1537D4004BEBDD /* Hand Planting-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hand Planting-96.png"; sourceTree = "<group>"; };
+		826BC33B1F17E7A0006A25ED /* SitesInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesInfoViewController.swift; sourceTree = "<group>"; };
+		826BC33E1F180896006A25ED /* SiteInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteInfoTableViewCell.swift; sourceTree = "<group>"; };
 		8283FDBD1F085DC600F1508A /* Screen Shot 2017-07-01 at 3.45.56 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2017-07-01 at 3.45.56 PM.png"; sourceTree = "<group>"; };
 		8283FDBF1F085F2C00F1508A /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		8283FDC11F08629C00F1508A /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
@@ -128,7 +132,7 @@
 		F898EEC51E94358100A0E66E /* NewRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRecordTableViewCell.swift; sourceTree = "<group>"; };
 		F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoilTypeTableViewController.swift; path = ../SoilTypeTableViewController.swift; sourceTree = "<group>"; };
 		F8BC8D231EB8F01300064318 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
-		F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherGetter.swift; sourceTree = "<group>"; };
+		F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherGetter.swift; path = SoilMoisture/WeatherGetter.swift; sourceTree = "<group>"; };
 		F8DE3AF11E9D492100C9749D /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F8F8B0B71F06B61B000086F1 /* SensorReadingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorReadingsCell.swift; sourceTree = "<group>"; };
 		F8F8B0BF1F06C489000086F1 /* Resistor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resistor.png; sourceTree = "<group>"; };
@@ -140,8 +144,8 @@
 		F8FB4E971E7727AD00F13DD7 /* Checklist-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checklist-50@2x.png"; sourceTree = "<group>"; };
 		F8FB4E991E77284700F13DD7 /* Line Chart-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Line Chart-50@2x.png"; sourceTree = "<group>"; };
 		F8FB4E9B1E77288C00F13DD7 /* Settings-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-50@2x.png"; sourceTree = "<group>"; };
-		F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMetadata.swift; sourceTree = "<group>"; };
-		F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoilDataRecord.swift; sourceTree = "<group>"; };
+		F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserMetadata.swift; path = SoilMoisture/UserMetadata.swift; sourceTree = "<group>"; };
+		F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoilDataRecord.swift; path = SoilMoisture/SoilDataRecord.swift; sourceTree = "<group>"; };
 		F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialMetadaViewController.swift; sourceTree = "<group>"; };
 		F8FEA0701EC22F5000FBD739 /* Screenshot-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot-50.png"; sourceTree = "<group>"; };
 		F8FEA0721EC23E7800FBD739 /* NoteRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteRecordTableViewCell.swift; sourceTree = "<group>"; };
@@ -176,6 +180,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826BC33D1F17E7B7006A25ED /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				F8FEA0781EC2510900FBD739 /* SitesViewController.swift */,
+				F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */,
+				F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */,
+				F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */,
+				F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		F836C0A31E7721E700647893 = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +199,9 @@
 				F8323C191EAFB0B2003531A6 /* NRFManager.swift */,
 				F8323C1B1EAFFCF2003531A6 /* Soil.swift */,
 				F8BC8D231EB8F01300064318 /* Site.swift */,
+				F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */,
+				F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */,
+				F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */,
 				F836C0AE1E7721E700647893 /* SoilMoisture */,
 				F836C0C51E7721E700647893 /* SoilMoistureTests */,
 				F836C0D01E7721E700647893 /* SoilMoistureUITests */,
@@ -206,18 +225,13 @@
 			children = (
 				F836C0AF1E7721E700647893 /* AppDelegate.swift */,
 				F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */,
-				F8FEA0781EC2510900FBD739 /* SitesViewController.swift */,
-				F8FEA07A1EC2529E00FBD739 /* AddSiteViewController.swift */,
-				F8AA682A1ED4E1A900E77634 /* SoilTypeTableViewController.swift */,
-				F8FB4E911E77263D00F13DD7 /* DataLogViewController.swift */,
-				F8FB4E951E77266100F13DD7 /* VisualizationViewController.swift */,
+				826BC33B1F17E7A0006A25ED /* SitesInfoViewController.swift */,
+				826BC33E1F180896006A25ED /* SiteInfoTableViewCell.swift */,
 				F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */,
+				826BC33D1F17E7B7006A25ED /* Other */,
 				F836C0B51E7721E700647893 /* Main.storyboard */,
 				F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */,
-				F8FB4E9D1E772BEB00F13DD7 /* UserMetadata.swift */,
-				F8FB4E9F1E773A5900F13DD7 /* SoilDataRecord.swift */,
 				F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */,
-				F8DE3AEF1E9D377000C9749D /* WeatherGetter.swift */,
 				F83DD04B1E774A18003C03E7 /* TableViewCells */,
 				F836C0B81E7721E700647893 /* Assets.xcassets */,
 				F836C0BA1E7721E700647893 /* LaunchScreen.storyboard */,
@@ -454,6 +468,7 @@
 			files = (
 				F8FB4E921E77263D00F13DD7 /* DataLogViewController.swift in Sources */,
 				F8DE3AF21E9D492100C9749D /* Weather.swift in Sources */,
+				826BC33C1F17E7A0006A25ED /* SitesInfoViewController.swift in Sources */,
 				F8F8B0B81F06B61B000086F1 /* SensorReadingsCell.swift in Sources */,
 				F8FEA0731EC23E7800FBD739 /* NoteRecordTableViewCell.swift in Sources */,
 				F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */,
@@ -467,6 +482,7 @@
 				F8FB4EA41E773E5F00F13DD7 /* InitialMetadaViewController.swift in Sources */,
 				F8FB4E9E1E772BEB00F13DD7 /* UserMetadata.swift in Sources */,
 				F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */,
+				826BC33F1F180896006A25ED /* SiteInfoTableViewCell.swift in Sources */,
 				F836C0B01E7721E700647893 /* AppDelegate.swift in Sources */,
 				F8FEA07B1EC2529E00FBD739 /* AddSiteViewController.swift in Sources */,
 				F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */,
