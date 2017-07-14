@@ -11,13 +11,17 @@ import UIKit
 class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var sitesTable: UITableView!
     
+    var rowHeight:Double? = 141,
+        selectedRowHeight:Double? = 483,
+        selectedRowIndex:IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-
+        sitesTable.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +45,7 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
+        return 3
     }
     
     // Set the cell for each row
@@ -51,6 +55,18 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         // Switch depending on row
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "siteInfo", for: indexPath) as! SiteInfoTableViewCell
+        switch indexPath.row % 4 {
+        case 0:
+            cell.bgView.backgroundColor = UIColor.init(red: 134/255.0, green: 198/255.0, blue: 181/255.0, alpha: 1.0)
+        case 1:
+            cell.bgView.backgroundColor = UIColor.init(red: 205/255.0, green: 80/255.0, blue: 84/255.0, alpha: 1.0)
+        case 3:
+            cell.bgView.backgroundColor = UIColor.init(red: 72/255.0, green: 84/255.0, blue: 121/255.0, alpha: 1.0)
+        case 2:
+            cell.bgView.backgroundColor = UIColor.init(red: 116/255.0, green: 90/255.0, blue: 134/255.0, alpha: 1.0)
+        default:
+            print("default")
+        }
         return cell
     }
     
@@ -58,14 +74,32 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch indexPath.row {
-        case 0:
-            return 130
-        default:
-            return 44
+        if indexPath == selectedRowIndex {
+            return CGFloat(self.selectedRowHeight!)
         }
+        
+        return CGFloat(self.rowHeight!)
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("Selected!")
+        
+        if selectedRowIndex == indexPath {
+            selectedRowIndex = nil
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            return
+        }
+        
+        selectedRowIndex = indexPath
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 
