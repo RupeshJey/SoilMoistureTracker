@@ -29,7 +29,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         moisture:String = "",               // Sensor-measured moisture
         siteString = "",                    // Selected site string
         locManager = CLLocationManager(),   // Location Manager to get coordinates
-        temp:Double = 0.0,                  // Numerical temperature
+        temp:Double?,                       // Numerical temperature
         resist:Double = 0.0,                // Numberical resistance
         image:UIImage?,                     // Image
         imageBool:Bool = false,             // Boolean for image
@@ -43,6 +43,22 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         coordinateRegion:MKCoordinateRegion?// Coordinates
     
     var pageOpened = false
+    
+    struct SensorParameters {
+        //units: Meters
+        
+        let circumference:Double = 0.00952
+        let length:Double = 0.049
+        let exposedLength:Double = 0.05
+        
+        func resistivity(r:Double) -> Double {
+            return r*((exposedLength * (circumference/2)) / length)
+        }
+        
+        func resistance(ser:Double) -> Double {
+            return ser/((exposedLength * (circumference/2)) / length)
+        }
+    }
     
     //@IBOutlet weak var Save: UIButton!                // Save Button
     @IBOutlet weak var DataTable: UITableView!          // Data Table
@@ -166,9 +182,13 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 if string!.contains("R: ") {
                     self.resistance = string!.substring(from: indexStartOfText)
                     
-                    if (Double(self.resistance) != nil) {
+                    if (Double(self.resistance) != nil && self.temp != nil) {
                         
-                        var moistureValue = 611897 * pow(Double(self.resistance)! , -1.196)
+                        //first obtain corrected resistance and temp
+                        let initialResistance = Double(self.resistance)!
+                        let finalResistance = self.normalizeResistance(resistance: initialResistance, temperature: self.temp!)
+                        
+                        var moistureValue = 611897 * pow(finalResistance , -1.196)
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
                         self.moistureNumber = moistureValue
@@ -180,9 +200,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 else if string!.contains("T: ") {
                     let shortenedDouble = string!.substring(from: indexStartOfText)
-                    if shortenedDouble != "-196.60" {
+                    if (shortenedDouble != "-196.60" && shortenedDouble != "185.00") {
                         self.temp = Double(shortenedDouble)!
-                        self.temperature =  String(format: "%0.1f",self.temp) + "℉"
+                        self.temperature =  String(format: "%0.1f",self.temp!) + "℉"
                     }
                     else {
                         self.temperature = "Disconnected"
@@ -197,6 +217,18 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         
         nrfManagerInstance.autoConnect = false
         nrfManagerInstance.connect("JPLSoil")
+    }
+    
+    func normalizeResistance(resistance:Double, temperature:Double) -> Double {
+        let alpha:Double = 0.0012
+        let beta:Double = 0.1502
+        
+        let sensorReading:SensorParameters = SensorParameters()
+        let serT = sensorReading.resistivity(r: resistance)
+        let ser20 = serT / (1-serT*alpha*exp(beta*(temperature - 20)))
+        
+        return sensorReading.resistance(ser: ser20)
+        
     }
     
     // Save record into user defaults
@@ -240,6 +272,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        //avoid unwrapping optional
+        if(self.temp == nil){
+            self.temp = 0.0
+        }
+            
         // Switch depending on row
         
         switch indexPath.row {
@@ -279,17 +316,17 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             // Temperature
             
             cell.temperatureLabel.text = temperature
-            cell.temperature = self.temp
+            cell.temperature = self.temp!
             
             cell.temperatureCelsiusLabel.text = invalid
             
             if cell.temperatureLabel.text != invalid {
-                cell.temperatureCelsiusLabel.text = String(format: "%0.1f" , (self.temp - 32)/1.8) + "℃"
-                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp/100)), width: 6.5, height: max(0, 90 * (self.temp/100)))
+                cell.temperatureCelsiusLabel.text = String(format: "%0.1f" , (self.temp! - 32)/1.8) + "℃"
+                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp!/100)), width: 6.5, height: max(0, 90 * (self.temp!/100)))
             }
             
             else {
-                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp/100)), width: 6.5, height: max(0, 90 * (self.temp/100)))
+                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp!/100)), width: 6.5, height: max(0, 90 * (self.temp!/100)))
             }
 
             // Date
