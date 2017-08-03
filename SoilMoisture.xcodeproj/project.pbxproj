@@ -17,6 +17,8 @@
 		8283FDC01F085F2C00F1508A /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDBF1F085F2C00F1508A /* Arrow.png */; };
 		8283FDC21F08629C00F1508A /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 8283FDC11F08629C00F1508A /* Camera.png */; };
 		8283FDC41F086B0200F1508A /* MapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283FDC31F086B0200F1508A /* MapTableViewCell.swift */; };
+		82DB182D1F1E5EA800CB80D2 /* NewSiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DB182C1F1E5EA800CB80D2 /* NewSiteViewController.swift */; };
+		82F886F31F2FD6930083EC77 /* SoilTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F886F21F2FD6930083EC77 /* SoilTypeCollectionViewCell.swift */; };
 		F80107291ED57FA400236DA2 /* CoordinateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */; };
 		F801072B1ED587FD00236DA2 /* SiteSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */; };
 		F80F5A381F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */; };
@@ -103,6 +105,8 @@
 		8283FDBF1F085F2C00F1508A /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		8283FDC11F08629C00F1508A /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
 		8283FDC31F086B0200F1508A /* MapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTableViewCell.swift; sourceTree = "<group>"; };
+		82DB182C1F1E5EA800CB80D2 /* NewSiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSiteViewController.swift; sourceTree = "<group>"; };
+		82F886F21F2FD6930083EC77 /* SoilTypeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoilTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		F80107281ED57FA400236DA2 /* CoordinateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTableViewCell.swift; sourceTree = "<group>"; };
 		F801072A1ED587FD00236DA2 /* SiteSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteSelectTableViewController.swift; sourceTree = "<group>"; };
 		F80F5A371F06A86500EFC679 /* Screen Shot 2017-06-30 at 8.39.38 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2017-06-30 at 8.39.38 AM.png"; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 				F83DD04E1E776DCC003C03E7 /* AddSoilRecordViewController.swift */,
 				826BC33B1F17E7A0006A25ED /* SitesInfoViewController.swift */,
 				826BC33E1F180896006A25ED /* SiteInfoTableViewCell.swift */,
+				82DB182C1F1E5EA800CB80D2 /* NewSiteViewController.swift */,
+				82F886F21F2FD6930083EC77 /* SoilTypeCollectionViewCell.swift */,
 				F8FB4E931E77265300F13DD7 /* SettingsViewController.swift */,
 				826BC33D1F17E7B7006A25ED /* Other */,
 				F836C0B51E7721E700647893 /* Main.storyboard */,
@@ -234,8 +240,8 @@
 				F8FB4EA31E773E5F00F13DD7 /* InitialMetadaViewController.swift */,
 				F83DD04B1E774A18003C03E7 /* TableViewCells */,
 				F836C0B81E7721E700647893 /* Assets.xcassets */,
-				F836C0BA1E7721E700647893 /* LaunchScreen.storyboard */,
 				F836C0E11E77232C00647893 /* Image Assets */,
+				F836C0BA1E7721E700647893 /* LaunchScreen.storyboard */,
 				F836C0BD1E7721E700647893 /* Info.plist */,
 			);
 			path = SoilMoisture;
@@ -488,11 +494,13 @@
 				F8DE3AF01E9D377000C9749D /* WeatherGetter.swift in Sources */,
 				F8FB4E961E77266100F13DD7 /* VisualizationViewController.swift in Sources */,
 				F83DD04D1E7768A3003C03E7 /* SoilRecordTableViewCell.swift in Sources */,
+				82F886F31F2FD6930083EC77 /* SoilTypeCollectionViewCell.swift in Sources */,
 				F83DD04A1E774A11003C03E7 /* TextInputTableViewCell.swift in Sources */,
 				F8AA682B1ED4E1A900E77634 /* SoilTypeTableViewController.swift in Sources */,
 				8214E36D1F0854DE00964930 /* ObservationsTableViewCell.swift in Sources */,
 				F8FEA0791EC2510900FBD739 /* SitesViewController.swift in Sources */,
 				F898EEC61E94358100A0E66E /* NewRecordTableViewCell.swift in Sources */,
+				82DB182D1F1E5EA800CB80D2 /* NewSiteViewController.swift in Sources */,
 				F83DD04F1E776DCC003C03E7 /* AddSoilRecordViewController.swift in Sources */,
 				F8FB4E941E77265300F13DD7 /* SettingsViewController.swift in Sources */,
 				F8FEA0771EC24FF000FBD739 /* SiteTableViewCell.swift in Sources */,

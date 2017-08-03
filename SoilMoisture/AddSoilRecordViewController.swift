@@ -42,12 +42,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         timer: Timer?,                      // Timer
         coordinateRegion:MKCoordinateRegion?// Coordinates
     
+    
+    var mapView:MKMapView = MKMapView.init()
     var pageOpened = false
     
     struct SensorParameters {
         //units: Meters
         
-        let circumference:Double = 0.00952
+        let circumference:Double = 0.0095
         let length:Double = 0.049
         let exposedLength:Double = 0.05
         
@@ -72,25 +74,32 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // View did load
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         
-        // Set default labels
-        setupInvalids()
         
-        // Set up the location manager
-        locationSetup()
+        if self.hasOpenedBefore() {
+            // Set default labels
+            setupInvalids()
+            
+            // Set up the location manager
+            locationSetup()
+            
+            // Listen for shifting table as necessary
+            NotificationCenter.default.addObserver(self, selector: #selector(self.handleNoteTap), name: Notification.Name("shiftTable"), object: nil)
+            
+            // Bluetooth error-handling view setup
+            bluetoothSetup()
+            
+            // Scheduling timer to call the bluetooth checker with the interval of 1 second
+            startTimer()
+            
+            // Load mapview
+            loadMap()
+        }
         
-        // Listen for shifting table as necessary
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleNoteTap), name: Notification.Name("shiftTable"), object: nil)
         
-        // Bluetooth error-handling view setup
-        bluetoothSetup()
-        
-        // Scheduling timer to call the bluetooth checker with the interval of 1 second
-        startTimer()
-        
-        // Map loading 
-        coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!, 1000 * 2.0, 1000 * 2.0)
     }
 
     // View did appear
@@ -99,18 +108,27 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         // Collect metadata if first load
         if !self.hasOpenedBefore() {self.getMetadata()}
         
-        // Collect sensor data
-        getArduinoData()
-        
-        // Get weather by passing coordinates
-        getWeather()
-        
-        // Update the temporary site string
-        siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
-        
-        // Animate the Bluetooth pulse
-        animateBluetooth()
-        
+        // Continue if not
+        else {
+            // Collect sensor data
+            getArduinoData()
+            
+            // Get weather by passing coordinates
+            getWeather()
+            
+            // Update the temporary site string
+            //siteString = UserDefaults.standard.string(forKey: "tempSiteName")!
+            
+            // Animate the Bluetooth pulse
+            animateBluetooth()
+        }
+    }
+    
+    // Load map beforehand
+    
+    func loadMap() {
+        coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!, 1000 * 2.0, 1000 * 2.0)
+        mapView.setRegion(coordinateRegion!, animated: false)
     }
     
     // Location manager details
@@ -141,6 +159,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // Get metadata if necessary
     func getMetadata() {
+        
+        print("getting metadata")
+        
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InitialMetadaViewController")
         nextVC.modalTransitionStyle = .coverVertical
         self.present(nextVC, animated: true, completion: nil)
@@ -154,7 +175,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     // Helper function to tell whether app has been opened before
     func hasOpenedBefore() -> Bool {
-        return true//UserDefaults.standard.bool(forKey: openedKeyID)
+        
+        return UserDefaults.standard.bool(forKey: openedKeyID)
+        
     }
     
     // This function gets valid sensor data
@@ -188,7 +211,9 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
                         let initialResistance = Double(self.resistance)!
                         let finalResistance = self.normalizeResistance(resistance: initialResistance, temperature: self.temp!)
                         
-                        var moistureValue = 611897 * pow(finalResistance , -1.196)
+                        //print("Final resistance is: \(finalResistance)")
+                        
+                        var moistureValue = /*611897*/ 387258 * pow(finalResistance , -1.196)
                         moistureValue = Double(round(1000*moistureValue)/1000)
                         
                         self.moistureNumber = moistureValue
@@ -221,14 +246,14 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     
     func normalizeResistance(resistance:Double, temperature:Double) -> Double {
         let alpha:Double = 0.0012
-        let beta:Double = 0.1502
+        let beta:Double = 0.1562
         
         let sensorReading:SensorParameters = SensorParameters()
         let serT = sensorReading.resistivity(r: resistance)
-        let ser20 = serT / (1-serT*alpha*exp(beta*(temperature - 20)))
+        let celsiusTemp = (temperature - 32 ) / 1.8
+        let ser20 = serT / (1-serT*alpha*exp(beta*(celsiusTemp - 20)))
         
         return sensorReading.resistance(ser: ser20)
-        
     }
     
     // Save record into user defaults
@@ -258,7 +283,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
     // Set the number of sections in the table
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        
+        if hasOpenedBefore() {
+            return 1
+        }
+        
+        else {
+            return 0
+        }
+        
     }
     
     // Set the number of rows
@@ -295,6 +328,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             //cell.barWater.frame = CGRect.init(x: 0.5, y: 169 - (157-22) * (min(self.moistureNumber!, 100)/100), width: 154, height: 22 + (157-22) * (min(self.moistureNumber!, 100)/100))
             //cell.waveWater.center = CGPoint.init(x: 90.5, y: 152.5 + (157-22) * (min(self.moistureNumber!, 100)/100))
             
+            cell.barWater.frame = CGRect.init(x: 0, y: cell.MoistureView.frame.height - (22 * cell.MoistureView.frame.width / 170), width: cell.MoistureView.frame.width , height: 22 * cell.MoistureView.frame.width / 170)
+            
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = UIBezierPath(roundedRect: cell.barWater.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 10.0, height: 10.0)).cgPath
+            
+            cell.barWater.layer.mask = maskLayer
+            
+            cell.waveWater.frame = CGRect.init(x: 0, y: cell.barWater.frame.minY - 27, width: cell.MoistureView.frame.width, height: 27 * cell.MoistureView.frame.width / 170)
+            
             // Resistance
             
             if (resistance != invalid && resistance != " INF" && resistance != "") {
@@ -306,6 +348,7 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             else if resistance == " INF" {
                 cell.resistanceLabel.text = "INF kΩ"
                 self.resist = Double.greatestFiniteMagnitude
+                cell.moistureLabel.text = "0%"
             }
             
             else {
@@ -322,11 +365,15 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
             
             if cell.temperatureLabel.text != invalid {
                 cell.temperatureCelsiusLabel.text = String(format: "%0.1f" , (self.temp! - 32)/1.8) + "℃"
-                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp!/100)), width: 6.5, height: max(0, 90 * (self.temp!/100)))
+                cell.temperatureBar.frame = CGRect.init(
+                    x: Double(136 * cell.TemperatureView.frame.width / 170),
+                    y: (Double(151 * cell.TemperatureView.frame.width / 170) - max(0, 90 * (self.temp!/100))),
+                    width: Double(6.5 * (cell.TemperatureView.frame.width / 170)),
+                    height: max(0, 90 * (self.temp!/100)))
             }
             
             else {
-                cell.temperatureBar.frame = CGRect.init(x: 136, y: 151 - max(0, 90 * (self.temp!/100)), width: 6.5, height: max(0, 90 * (self.temp!/100)))
+                cell.temperatureBar.frame = CGRect.init(x: Double(136 * cell.TemperatureView.frame.width / 170), y: 151 - max(0, 90 * (self.temp!/100)), width: 6.5, height: max(0, 90 * (self.temp!/100)))
             }
 
             // Date
@@ -365,8 +412,10 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "mapCell", for: indexPath) as! MapTableViewCell
             cell.frame = CGRect(x: 0, y: 0, width: Int(self.view.frame.width), height: 221)
+            self.loadMap()
+            //cell.mapView = mapView
+            coordinateRegion = MKCoordinateRegionMakeWithDistance((locManager.location?.coordinate)!, 1000 * 2.0, 1000 * 2.0)
             cell.mapView.setRegion(coordinateRegion!, animated: false)
-            
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SensorReadingCell", for: indexPath)
@@ -403,11 +452,11 @@ class AddSoilRecordViewController: UIViewController, UITableViewDelegate, UITabl
         case 0:
             return 44
         case 1:
-            return 355
+            return 3 +  355 * self.view.frame.width / 375
         case 2:
             return 44
         case 3:
-            return 230
+            return 230 * self.view.frame.width / 375
         case 4:
             return 44
         case 5:

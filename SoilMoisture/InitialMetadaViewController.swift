@@ -15,6 +15,8 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
     let openedKeyID = "openedBefore",   // Constant to check if app has been opened
         userMetadataID = "userMetadata" // Constant to retrieve user metadata
     
+    let sitesID = "sitesList"               // Constant to retrieve sites
+    
     var UID = ""    // User UID
     
     override func viewDidLoad() {
@@ -36,6 +38,7 @@ class InitialMetadaViewController: UIViewController, UITableViewDelegate, UITabl
         UserDefaults.standard.set(data, forKey: userMetadataID)
         
         UserDefaults.standard.set(true, forKey: openedKeyID)
+        UserDefaults.standard.set([], forKey: sitesID)
         self.dismiss(animated: true, completion: nil)
     }
     

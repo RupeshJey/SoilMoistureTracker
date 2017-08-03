@@ -48,9 +48,7 @@ class SensorReadingsCell: UITableViewCell {
         
         //UIView.animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:
         
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = UIBezierPath(roundedRect: barWater.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
-        barWater.layer.mask = maskLayer
+        
     }
 
     

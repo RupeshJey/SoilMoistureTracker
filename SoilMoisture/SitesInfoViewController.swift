@@ -8,25 +8,52 @@
 
 import UIKit
 
-class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SiteInfoTableViewCellDelegate {
 
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var sitesTable: UITableView!
+    @IBOutlet weak var navBar: UINavigationBar!     // Navigation Bar
+    @IBOutlet weak var sitesTable: UITableView!     // TableView
+    
+    let sitesID = "sitesList"                       // Constant to retrieve sites
+    var sitesArray:[Any]?                           // Array of sites
     
     var rowHeight:Double? = 141,
-        selectedRowHeight:Double? = 483,
-        selectedRowIndex:IndexPath?
+        selectedRowHeight:Double? = 830,
+        selectedRowIndex:IndexPath?,
+        images:[UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        sitesTable.delegate = self
+        
+        // 
+        sitesArray = UserDefaults.standard.array(forKey: sitesID)
+        
+        loadImages()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        sitesTable.beginUpdates()
+        sitesTable.endUpdates()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadImages() {
+        for site in sitesArray! {
+            let siteData = NSKeyedUnarchiver.unarchiveObject(with: site as! Data) as! Site
+            images.append(resizeImage(image: siteData.siteImage!, newWidth: 200)!)
+            
+        }
+    }
+    
+    @IBAction func AddSite(_ sender: Any) {
+        
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addSiteVC") //as! NewSiteViewController
+        nextVC.modalTransitionStyle = .coverVertical
+        self.present(nextVC, animated: true, completion: nil)
+        
     }
     
     // ---------------------------
@@ -45,7 +72,7 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return (sitesArray?.count)!
     }
     
     // Set the cell for each row
@@ -55,7 +82,7 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         // Switch depending on row
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "siteInfo", for: indexPath) as! SiteInfoTableViewCell
-        switch indexPath.row % 4 {
+        /*switch indexPath.row % 4 {
         case 0:
             cell.bgView.backgroundColor = UIColor.init(red: 134/255.0, green: 198/255.0, blue: 181/255.0, alpha: 1.0)
         case 1:
@@ -67,6 +94,17 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         default:
             print("default")
         }
+        
+        let siteData = NSKeyedUnarchiver.unarchiveObject(with: sitesArray![indexPath.row] as! Data) as! Site
+        cell.siteNameLabel.text = siteData.siteName
+        cell.soilTypeLabel.text = siteData.soilTypeString
+        cell.siteImageView.image = images[indexPath.row]
+        cell.setup(delegate: self)
+        //cell.topLine.alpha = 0.0
+        //if indexPath == selectedRowIndex {
+        //    cell.topLine.alpha = 1.0
+        //}
+        */
         return cell
     }
     
@@ -98,6 +136,25 @@ class SitesInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.endUpdates()
         
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    func graphSelectionDone() {
+        
+        
+        self.view.endEditing(true)
     }
     
     /*

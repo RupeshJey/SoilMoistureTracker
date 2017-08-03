@@ -29,7 +29,7 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     let borderWidth:CGFloat = 1.5           // Border width
     
     let sitesID = "sitesList"               // Constant to retrieve sites
-    var sitesArray:[Any]?                   // Array of sites
+    //var sitesArray:[Any]?                   // Array of sites
     
     private var delegate: ObservationsTableViewCellDelegate?
     
@@ -51,7 +51,7 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         SiteView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:228/255.0, alpha: 1).cgColor
         NotesView.layer.borderColor = UIColor(red:222/255.0, green:225/255.0, blue:228/255.0, alpha: 1).cgColor
         
-        sitesArray = UserDefaults.standard.array(forKey: sitesID)
+        //sitesArray = UserDefaults.standard.array(forKey: sitesID)
         
         //SiteButton.layer.cornerRadius = cornerRadius
         
@@ -68,6 +68,8 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         placeholderLabel.frame.origin = CGPoint(x: 60, y: 43)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !NotesField.text.isEmpty
+        
+        PhotoView.frame = CGRect.init(x: 15, y: 0, width: self.contentView.frame.width / 2 - 18, height: self.contentView.frame.height)
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -75,12 +77,12 @@ class ObservationsTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return sitesArray!.count
+        return 1//sitesArray!.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let siteData = NSKeyedUnarchiver.unarchiveObject(with: sitesArray![row] as! Data) as! Site
-        return siteData.siteName
+        //let siteData = NSKeyedUnarchiver.unarchiveObject(with: sitesArray![row] as! Data) as! Site
+        return "Arroyo Seco"//siteData.siteName
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
